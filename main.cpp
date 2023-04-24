@@ -1,5 +1,5 @@
 #include <iostream>
-#include <conio.h>
+#include <ncurses.h>
 #include "Classes/Inchiriere/Inchiriere.h"
 #include "Classes/Inchiriere/Inchiriere.cpp"
 #include "Classes/Masina/Masina.h"
@@ -25,7 +25,7 @@ int main()
 
     do
     {
-        system("cls");
+        system("clear"); // cls pentru windows
         cout << " ---- Inchirieri ---- \n";
         cout << "I. Introducere informatii inchiriere\n";
         cout << "A. Afisare inchiriere\n";
