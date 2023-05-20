@@ -2,7 +2,7 @@
 #include "Inchiriere.h"
 #include <iostream>
 #include <fstream>
-#include <string> 
+#include <string>
 
 using namespace std;
 
@@ -11,10 +11,7 @@ AdministrareInchirieri::AdministrareInchirieri(string numeFisier)
     this->numeFisier = numeFisier;
 }
 
-AdministrareInchirieri::~AdministrareInchirieri()
-{
-
-}
+AdministrareInchirieri::~AdministrareInchirieri() {}
 
 void AdministrareInchirieri::AdaugaInchiriere(Inchiriere inchiriere)
 {
@@ -29,14 +26,13 @@ void AdministrareInchirieri::AdaugaInchiriere(Inchiriere inchiriere)
 Inchiriere* AdministrareInchirieri::GetInchirieri(int& nrInchirieri)
 {
     Inchiriere* inchirieri = new Inchiriere[NR_MAX_INCHIRIERI];
+
     ifstream fisier(numeFisier);
     string linieFisier;
     nrInchirieri = 0;
 
     while (getline(fisier, linieFisier))
-    {
         inchirieri[nrInchirieri++] = Inchiriere(linieFisier);
-    }
 
     fisier.close();
     return inchirieri;
