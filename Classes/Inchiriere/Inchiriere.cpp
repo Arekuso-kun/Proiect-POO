@@ -1,9 +1,6 @@
 #include "Inchiriere.h"
 #include <iostream>
 #include <string>
-#include <sstream>
-#include <cstring>
-#include <string>
 #include <vector>
 
 using namespace std;
@@ -59,9 +56,6 @@ string Inchiriere::ConversieLaSir_PentruFisier() {
 }
 
 istream &operator>>(istream &is, Inchiriere &inchiriere) {
-    cout << "Introduceti ID-ul inchirierii: ";
-    is >> inchiriere.idInchiriere;
-
     cout << "Introduceti ID-ul masinii: ";
     is >> inchiriere.idMasina;
 
@@ -78,7 +72,8 @@ istream &operator>>(istream &is, Inchiriere &inchiriere) {
     is >> inchiriere.varsta;
 
     cout << "Introduceti adresa clientului: ";
-    is >> inchiriere.adresa;
+    cin.ignore();
+    getline(is, inchiriere.adresa);
 
     cout << "Introduceti numarul de telefon al clientului: ";
     is >> inchiriere.telefon;

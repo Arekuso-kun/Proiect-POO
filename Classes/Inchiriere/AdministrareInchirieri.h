@@ -13,7 +13,7 @@ public:
     AdministrareInchirieri(string numeFisier = "Inchirieri.txt");
     ~AdministrareInchirieri();
     void AdaugaInchiriere(Inchiriere inchiriere);
-    Inchiriere* GetInchirieri(int& nrInchirieri);
+    vector<Inchiriere> GetInchirieri(int& nrInchirieri);
 
 private:
     string numeFisier;

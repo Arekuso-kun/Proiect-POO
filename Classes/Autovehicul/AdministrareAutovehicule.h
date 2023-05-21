@@ -13,7 +13,7 @@ public:
     AdministrareAutovehicule(string numeFisier = "Autovehicule.txt");
     ~AdministrareAutovehicule();
     void AdaugaAutovehicul(Autovehicul autovehicul);
-    Autovehicul* GetAutovehicule(int& nrAutovehicule);
+    vector<Autovehicul> GetAutovehicule(int& nrAutovehicule);
 
 private:
     string numeFisier;

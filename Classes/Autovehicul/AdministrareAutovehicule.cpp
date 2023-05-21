@@ -1,5 +1,4 @@
 #include "AdministrareAutovehicule.h"
-#include "Autovehicul.h"
 #include <iostream>
 #include <fstream>
 #include <string> 
@@ -22,8 +21,8 @@ void AdministrareAutovehicule::AdaugaAutovehicul(Autovehicul autovehicul) {
     }
 }
 
-Autovehicul* AdministrareAutovehicule::GetAutovehicule(int &nrAutovehicule) {
-    Autovehicul* autovehicule = new Autovehicul[NR_MAX_AUTOHEHICULE];
+vector<Autovehicul> AdministrareAutovehicule::GetAutovehicule(int &nrAutovehicule) {
+    vector<Autovehicul> autovehicule(NR_MAX_AUTOHEHICULE);
     ifstream fisier(numeFisier);
     string linieFisier;
     nrAutovehicule = 0;

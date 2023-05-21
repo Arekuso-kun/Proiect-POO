@@ -14,40 +14,18 @@ protected:
     int varsta;
 
 public:
-    Persoana(const string& nume, const string& prenume, const string& email, int varsta)
+    Persoana(string nume, string prenume, string email, int varsta)
             : nume(nume), prenume(prenume), email(email), varsta(varsta) {}
 
-    const string& getNume() const {
-        return nume;
-    }
+    string getNume() const {return nume;}
+    string getPrenume() const {return prenume;}
+    string getEmail() const {return email;}
+    int getVarsta() const {return varsta;}
 
-    const string& getPrenume() const {
-        return prenume;
-    }
-
-    const string& getEmail() const {
-        return email;
-    }
-
-    int getVarsta() const {
-        return varsta;
-    }
-
-    void setNume(const string& newNume) {
-        nume = newNume;
-    }
-
-    void setPrenume(const string& newPrenume) {
-        prenume = newPrenume;
-    }
-
-    void setEmail(const string& newEmail) {
-        email = newEmail;
-    }
-
-    void setVarsta(int newVarsta) {
-        varsta = newVarsta;
-    }
+    void setNume(string newNume) {nume = newNume;}
+    void setPrenume(string newPrenume) {prenume = newPrenume;}
+    void setEmail(string newEmail) {email = newEmail;}
+    void setVarsta(int newVarsta) {varsta = newVarsta;}
 };
 
 #endif

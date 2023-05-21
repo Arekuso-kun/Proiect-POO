@@ -1,7 +1,6 @@
 #include "Autovehicul.h"
 #include <iostream>
 #include <string>
-#include <iomanip>
 #include <vector>
 
 using namespace std;
@@ -65,7 +64,7 @@ void Autovehicul::returnCar() {
     }
 }
 
-string Autovehicul::Info() {
+string Autovehicul::Info() const {
     string info = "ID: " + to_string(id) + "\n";
     info += "Marca: " + marca + "\n";
     info += "Model: " + model + "\n";
@@ -105,27 +104,73 @@ string Autovehicul::ConversieLaSir_PentruFisier() {
 
 istream& operator>>(istream& is, Autovehicul& autovehicul)
 {
-    cout << "Introduceti ID-ul autovehiculului: ";
-    is >> autovehicul.id;
-
     cout << "Introduceti marca autovehiculului: ";
-    is >> autovehicul.marca;
+    cin.ignore();
+    getline(is, autovehicul.marca);
 
     cout << "Introduceti modelul autovehiculului: ";
-    is >> autovehicul.model;
+    getline(is, autovehicul.model);
 
-    cout << "Introduceti categoria autovehiculului: ";
-    is >> autovehicul.categorie;
+    int optiune = -1;
+    cout << "Selectati categoria autovehiculului: " << endl;
+    cout << "1. Compact" << endl;
+    cout << "2. Berlina" << endl;
+    cout << "3. Break" << endl;
+    cout << "4. SUV" << endl;
+    cout << "5. Coupe" << endl;
+    cout << "6. Cabrio" << endl;
+    cout << "Introduceti o optiune... ";
+    while (optiune < 1 || optiune > 6) {
+        is >> optiune;
 
-    cout << "Introduceti costul pe zi al autovehiculului: ";
+        switch (optiune) {
+            case 1:
+                autovehicul.categorie = "Compact";
+                break;
+            case 2:
+                autovehicul.categorie = "Berlina";
+                break;
+            case 3:
+                autovehicul.categorie = "Break";
+                break;
+            case 4:
+                autovehicul.categorie = "SUV";
+                break;
+            case 5:
+                autovehicul.categorie = "Coupe";
+                break;
+            case 6:
+                autovehicul.categorie = "Cabrio";
+                break;
+            default:
+                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
+                break;
+        }
+    }
+
+    cout << "Introduceti costul pe zi al autovehiculului (RON): ";
     is >> autovehicul.cost_zi;
 
-    cout << "Introduceti disponibilitatea autovehiculului (1 - disponibil, 0 - indisponibil): ";
-    int disponibilValue;
-    is >> disponibilValue;
-    autovehicul.disponibil = (disponibilValue == 1);
+    optiune = -1;
+    cout << "Selectati disponibilitatea autovehiculului: " << endl;
+    cout << "0. Indisponibil" << endl;
+    cout << "1. Disponibil" << endl;
+    cout << "Introduceti o optiune... ";
+    while (optiune < 0 || optiune > 1) {
+        is >> optiune;
 
-    cout << "Introduceti capacitatea motorului autovehiculului: ";
+        switch (optiune) {
+            case 0:
+            case 1:
+                break;
+            default:
+                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
+                break;
+        }
+    }
+    autovehicul.disponibil = (optiune == 1);
+
+    cout << "Introduceti capacitatea motorului autovehiculului (cm^3): ";
     is >> autovehicul.capacitate_motor;
 
     cout << "Introduceti numarul de pasageri al autovehiculului: ";
@@ -134,19 +179,73 @@ istream& operator>>(istream& is, Autovehicul& autovehicul)
     cout << "Introduceti numarul de portiere al autovehiculului: ";
     is >> autovehicul.nr_portiere;
 
-    cout << "Introduceti volumul portbagajului autovehiculului: ";
+    cout << "Introduceti volumul portbagajului autovehiculului (L): ";
     is >> autovehicul.volum_portbagaj;
 
-    cout << "Introduceti tipul de transmisie al autovehiculului: ";
-    is >> autovehicul.transmisie;
+    optiune = -1;
+    cout << "Selectati tipul de transmisie al autovehiculului: " << endl;
+    cout << "1. Manuala" << endl;
+    cout << "2. Automata" << endl;
+    cout << "Introduceti o optiune... ";
+    while (optiune < 1 || optiune > 2) {
+        is >> optiune;
 
-    cout << "Introduceti daca autovehiculul are aer conditionat (1 - da, 0 - nu): ";
-    int aerConditionatValue;
-    is >> aerConditionatValue;
-    autovehicul.aer_conditionat = (aerConditionatValue == 1);
+        switch (optiune) {
+            case 1:
+                autovehicul.transmisie = "Manuala";
+                break;
+            case 2:
+                autovehicul.transmisie = "Automata";
+                break;
+            default:
+                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
+                break;
+        }
+    }
 
-    cout << "Introduceti tipul de combustibil al autovehiculului: ";
-    is >> autovehicul.tip_combustibil;
+    optiune = -1;
+    cout << "Selectati daca autovehiculul are aer conditionat: " << endl;
+    cout << "0. Nu" << endl;
+    cout << "1. Da" << endl;
+    cout << "Introduceti o optiune... ";
+    while (optiune < 0 || optiune > 1) {
+        is >> optiune;
+
+        switch (optiune) {
+            case 0:
+            case 1:
+                break;
+            default:
+                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
+                break;
+        }
+    }
+    autovehicul.aer_conditionat = (optiune == 1);
+
+    optiune = -1;
+    cout << "Selectati tipul de combustibil al autovehiculului: " << endl;
+    cout << "1. Benzina" << endl;
+    cout << "2. Motorina" << endl;
+    cout << "3. Electric" << endl;
+    cout << "Introduceti o optiune... ";
+    while (optiune < 1 || optiune > 3) {
+        is >> optiune;
+
+        switch (optiune) {
+            case 1:
+                autovehicul.tip_combustibil = "Benzina";
+                break;
+            case 2:
+                autovehicul.tip_combustibil = "Motorina";
+                break;
+            case 3:
+                autovehicul.tip_combustibil = "Electric";
+                break;
+            default:
+                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
+                break;
+        }
+    }
 
     return is;
 }

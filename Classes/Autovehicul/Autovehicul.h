@@ -44,25 +44,25 @@ private:
 
 public:
     Autovehicul(int id = 0, string marca = "", string model = "", string categorie = "", int cost_zi = 0,
-                bool disponibil = true, int capacitate_motor = 0, int nr_pasageri = 0, int nr_portiere = 0,
+                bool disponibil = false, int capacitate_motor = 0, int nr_pasageri = 0, int nr_portiere = 0,
                 int volum_portbagaj = 0, string transmisie = "", bool aer_conditionat = false, string tip_combustibil = "");
     Autovehicul(string linieFisier);
     ~Autovehicul();
 
     // Getteri
-    int getID() { return id; }
-    string getMarca() { return marca; }
-    string getModel() { return model; }
-    string getCategorie() { return categorie; }
-    int getCostZi() { return cost_zi; }
-    bool isDisponibil() { return disponibil; }
+    int getID() const  { return id; }
+    string getMarca() const { return marca; }
+    string getModel() const { return model; }
+    string getCategorie() const { return categorie; }
+    int getCostZi() const { return cost_zi; }
+    bool isDisponibil() const { return disponibil; }
     int getCapacitateMotor() const { return capacitate_motor; }
-    int getNrPasageri() { return nr_pasageri; }
-    int getNrPortiere() { return nr_portiere; }
-    int getVolumPortbagaj() { return volum_portbagaj; }
-    string getTransmisie() { return transmisie; }
-    bool hasAerConditionat() { return aer_conditionat; }
-    string getTipCombustibil() { return tip_combustibil; }
+    int getNrPasageri() const  { return nr_pasageri; }
+    int getNrPortiere() const  { return nr_portiere; }
+    int getVolumPortbagaj() const  { return volum_portbagaj; }
+    string getTransmisie() const  { return transmisie; }
+    bool hasAerConditionat() const  { return aer_conditionat; }
+    string getTipCombustibil() const  { return tip_combustibil; }
 
     // Setteri
     void setID(int newId) { id = newId; }
@@ -82,7 +82,7 @@ public:
     void inchiriazaMasina();
     void returnCar();
 
-    string Info();
+    string Info() const;
     string ConversieLaSir_PentruFisier();
     friend istream& operator>>(istream& is, Autovehicul& autovehicul);
 };

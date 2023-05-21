@@ -1,5 +1,4 @@
 #include "AdministrareInchirieri.h"
-#include "Inchiriere.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -23,9 +22,9 @@ void AdministrareInchirieri::AdaugaInchiriere(Inchiriere inchiriere)
     }
 }
 
-Inchiriere* AdministrareInchirieri::GetInchirieri(int& nrInchirieri)
+vector<Inchiriere> AdministrareInchirieri::GetInchirieri(int& nrInchirieri)
 {
-    Inchiriere* inchirieri = new Inchiriere[NR_MAX_INCHIRIERI];
+    vector<Inchiriere> inchirieri(NR_MAX_INCHIRIERI);
 
     ifstream fisier(numeFisier);
     string linieFisier;
