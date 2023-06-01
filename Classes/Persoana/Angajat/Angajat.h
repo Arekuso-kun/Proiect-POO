@@ -10,15 +10,14 @@ using namespace std;
 class Angajat : public Persoana {
 private:
     string functie;
-    double salariu;
+    int salariu;
 
 public:
-    Angajat(const string& nume, const string& prenume, const string& email, int varsta,
-            const string& functie, double salariu)
-            : Persoana(nume, prenume, email, varsta), functie(functie), salariu(salariu) {}
+    Angajat(string nume = "", string prenume = "", string email = "", string cnp = "", string functie = "", int salariu = -1)
+            : Persoana(nume, prenume, email, cnp), functie(functie), salariu(salariu) {}
 
-    const string& getFunctie() const {return functie;}
-    double getSalariu() const {return salariu;}
+    string getFunctie() const {return functie;}
+    int getSalariu() const {return salariu;}
 
     void setFunctie(const string& newFunctie) {functie = newFunctie;}
     void setSalariu(double newSalariu) {salariu = newSalariu;}

@@ -84,7 +84,7 @@ string Autovehicul::Info() const {
     return info;
 }
 
-string Autovehicul::ConversieLaSir_PentruFisier() {
+string Autovehicul::ConversieLaSir_PentruFisier() const {
     string output = to_string(id) + SEPARATOR_PRINCIPAL_FISIER +
                     marca + SEPARATOR_PRINCIPAL_FISIER +
                     model + SEPARATOR_PRINCIPAL_FISIER +
@@ -248,4 +248,10 @@ istream& operator>>(istream& is, Autovehicul& autovehicul)
     }
 
     return is;
+}
+
+ostream& operator<<(ostream& os, const Autovehicul& autovehicul)
+{
+    os << autovehicul.Info();
+    return os;
 }

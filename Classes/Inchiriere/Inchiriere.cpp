@@ -5,11 +5,12 @@
 
 using namespace std;
 
-Inchiriere::Inchiriere(int idInchiriere, int idMasina, string nume, string prenume, string email, int varsta, string adresa, string telefon)
-                : Client(nume, prenume, email, varsta, adresa, telefon)
+Inchiriere::Inchiriere(int idInchiriere, int idAutovehicul, string nume, string prenume, string email, string cnp,
+                       string adresa, string telefon, string dataInchiriere, string dataReturnare)
+                       : Client(nume, prenume, email, cnp, adresa, telefon)
 {
     this->idInchiriere = idInchiriere;
-    this->idMasina = idMasina;
+    this->idAutovehicul = idAutovehicul;
 }
 
 Inchiriere::Inchiriere(string linieFisier) {
@@ -20,44 +21,50 @@ Inchiriere::Inchiriere(string linieFisier) {
     }
 
     idInchiriere = stoi(dateFisier[ID_INCHIRIERE]);
-    idMasina = stoi(dateFisier[ID_MASINA]);
+    idAutovehicul = stoi(dateFisier[ID_AUTOVEHICUL]);
     nume = dateFisier[NUME];
     prenume = dateFisier[PRENUME];
     email = dateFisier[EMAIL];
-    varsta = stoi(dateFisier[VARSTA]);
+    cnp = dateFisier[CNP];
     adresa = dateFisier[ADRESA];
     telefon = dateFisier[TELEFON];
+    dataInchiriere = dateFisier[DATA_INCHIRIERE];
+    dataReturnare = dateFisier[DATA_RETURNARE];
 }
 
 Inchiriere::~Inchiriere() {}
 
 string Inchiriere::Info() const {
     string info = "ID inchiriere: " + to_string(idInchiriere) + "\n";
-    info += "ID masina: " + to_string(idMasina) + "\n";
+    info += "ID autovehicul: " + to_string(idAutovehicul) + "\n";
     info += "Nume: " + nume + "\n";
     info += "Prenume: " + prenume + "\n";
     info += "Email: " + email + "\n";
-    info += "Varsta: " + to_string(varsta) + "\n";
+    info += "CNP: " + cnp + "\n";
     info += "Adresa: " + adresa + "\n";
     info += "Telefon: " + telefon + "\n";
+    info += "Data inchiriere: " + dataInchiriere + "\n";
+    info += "Data returnare: " + dataReturnare + "\n";
     return info;
 }
 
 string Inchiriere::ConversieLaSir_PentruFisier() {
     string output = to_string(idInchiriere) + SEPARATOR_PRINCIPAL_FISIER +
-                    to_string(idMasina) + SEPARATOR_PRINCIPAL_FISIER +
+                    to_string(idAutovehicul) + SEPARATOR_PRINCIPAL_FISIER +
                     nume + SEPARATOR_PRINCIPAL_FISIER +
                     prenume + SEPARATOR_PRINCIPAL_FISIER +
                     email + SEPARATOR_PRINCIPAL_FISIER +
-                    to_string(varsta) + SEPARATOR_PRINCIPAL_FISIER +
+                    cnp + SEPARATOR_PRINCIPAL_FISIER +
                     adresa + SEPARATOR_PRINCIPAL_FISIER +
-                    telefon + SEPARATOR_PRINCIPAL_FISIER;
+                    telefon + SEPARATOR_PRINCIPAL_FISIER +
+                    dataInchiriere + SEPARATOR_PRINCIPAL_FISIER +
+                    dataReturnare + SEPARATOR_PRINCIPAL_FISIER;
     return output;
 }
 
 istream &operator>>(istream &is, Inchiriere &inchiriere) {
-    cout << "Introduceti ID-ul masinii: ";
-    is >> inchiriere.idMasina;
+//    cout << "Introduceti ID-ul autovehiculului: ";
+//    is >> inchiriere.idAutovehicul;
 
     cout << "Introduceti numele clientului: ";
     is >> inchiriere.nume;
@@ -68,8 +75,8 @@ istream &operator>>(istream &is, Inchiriere &inchiriere) {
     cout << "Introduceti adresa de email a clientului: ";
     is >> inchiriere.email;
 
-    cout << "Introduceti varsta clientului: ";
-    is >> inchiriere.varsta;
+    cout << "Introduceti CNP clientului: ";
+    is >> inchiriere.cnp;
 
     cout << "Introduceti adresa clientului: ";
     cin.ignore();
@@ -77,6 +84,13 @@ istream &operator>>(istream &is, Inchiriere &inchiriere) {
 
     cout << "Introduceti numarul de telefon al clientului: ";
     is >> inchiriere.telefon;
+
+    cout << "Introduceti data inchirierii: ";
+    cin.ignore();
+    getline(is, inchiriere.dataInchiriere);
+
+    cout << "Introduceti data returnarii: ";
+    getline(is, inchiriere.dataReturnare);
 
     return is;
 }

@@ -14,6 +14,7 @@ public:
     ~AdministrareAutovehicule();
     void AdaugaAutovehicul(Autovehicul autovehicul);
     vector<Autovehicul> GetAutovehicule(int& nrAutovehicule);
+    bool StergeAutovehiculDupaID(int idAutovehicul);
 
 private:
     string numeFisier;

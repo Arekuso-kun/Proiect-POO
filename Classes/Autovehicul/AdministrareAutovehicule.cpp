@@ -1,7 +1,7 @@
 #include "AdministrareAutovehicule.h"
 #include <iostream>
 #include <fstream>
-#include <string> 
+#include <string>
 
 using namespace std;
 
@@ -32,4 +32,30 @@ vector<Autovehicul> AdministrareAutovehicule::GetAutovehicule(int &nrAutovehicul
 
     fisier.close();
     return autovehicule;
+}
+
+bool AdministrareAutovehicule::StergeAutovehiculDupaID(int idAutovehicul)
+{
+    int nrAutovehicule=0;
+    vector<Autovehicul> autovehicule = GetAutovehicule(nrAutovehicule);
+
+    for (auto it = autovehicule.begin(); it != autovehicule.end(); ++it) {
+        if (it->getID() == idAutovehicul) {
+            autovehicule.erase(it);
+
+            ofstream fisier(numeFisier);
+            if (fisier.is_open()) {
+                for (int i = 0; i < nrAutovehicule-1; i++) {
+                    fisier << autovehicule[i].ConversieLaSir_PentruFisier() << endl;
+                }
+                fisier.close();
+            } else {
+                cout << "Eroare la deschiderea fisierului!" << endl;
+            }
+
+            return true;
+        }
+    }
+
+    return false;
 }

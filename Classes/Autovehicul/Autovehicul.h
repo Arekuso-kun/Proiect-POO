@@ -43,13 +43,12 @@ private:
     static const int NR_CARACTERISTICI = 13;
 
 public:
-    Autovehicul(int id = 0, string marca = "", string model = "", string categorie = "", int cost_zi = 0,
-                bool disponibil = false, int capacitate_motor = 0, int nr_pasageri = 0, int nr_portiere = 0,
-                int volum_portbagaj = 0, string transmisie = "", bool aer_conditionat = false, string tip_combustibil = "");
+    Autovehicul(int id = -1, string marca = "NECUNOSCUT", string model = "NECUNOSCUT", string categorie = "NECUNOSCUT", int cost_zi = -1,
+                bool disponibil = false, int capacitate_motor = -1, int nr_pasageri = -1, int nr_portiere = -1,
+                int volum_portbagaj = -1, string transmisie = "NECUNOSCUT", bool aer_conditionat = false, string tip_combustibil = "NECUNOSCUT");
     Autovehicul(string linieFisier);
     ~Autovehicul();
 
-    // Getteri
     int getID() const  { return id; }
     string getMarca() const { return marca; }
     string getModel() const { return model; }
@@ -64,7 +63,6 @@ public:
     bool hasAerConditionat() const  { return aer_conditionat; }
     string getTipCombustibil() const  { return tip_combustibil; }
 
-    // Setteri
     void setID(int newId) { id = newId; }
     void setMarca(string newMarca) { marca = newMarca; }
     void setModel(string newModel) { model = newModel; }
@@ -83,8 +81,9 @@ public:
     void returnCar();
 
     string Info() const;
-    string ConversieLaSir_PentruFisier();
+    string ConversieLaSir_PentruFisier() const;
     friend istream& operator>>(istream& is, Autovehicul& autovehicul);
+    friend ostream& operator<<(ostream& os, const Autovehicul& autovehicul);
 };
 
 #endif

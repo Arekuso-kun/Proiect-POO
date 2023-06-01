@@ -13,11 +13,11 @@ protected:
     string telefon;
 
 public:
-    Client(string nume = "", string prenume = "", string email = "", int varsta = 0, string adresa = "", string telefon = "")
-            : Persoana(nume, prenume, email, varsta), adresa(adresa), telefon(telefon) {}
+    Client(string nume = "", string prenume = "", string email = "", string cnp = "", string adresa = "", string telefon = "")
+            : Persoana(nume, prenume, email, cnp), adresa(adresa), telefon(telefon) {}
 
-    string getAdresa() { return adresa; }
-    string getTelefon() { return telefon; }
+    string getAdresa() const { return adresa; }
+    string getTelefon() const { return telefon; }
 
     void setAdresa(string newAdresa) { adresa = newAdresa; }
     void setTelefon(string newTelefon) { telefon = newTelefon; }

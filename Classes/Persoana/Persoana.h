@@ -11,21 +11,21 @@ protected:
     string nume;
     string prenume;
     string email;
-    int varsta;
+    string cnp;
 
 public:
-    Persoana(string nume, string prenume, string email, int varsta)
-            : nume(nume), prenume(prenume), email(email), varsta(varsta) {}
+    Persoana(string nume, string prenume, string email, string cnp)
+            : nume(nume), prenume(prenume), email(email), cnp(cnp) {}
 
     string getNume() const {return nume;}
     string getPrenume() const {return prenume;}
     string getEmail() const {return email;}
-    int getVarsta() const {return varsta;}
+    string getCNP() const {return cnp;}
 
     void setNume(string newNume) {nume = newNume;}
     void setPrenume(string newPrenume) {prenume = newPrenume;}
     void setEmail(string newEmail) {email = newEmail;}
-    void setVarsta(int newVarsta) {varsta = newVarsta;}
+    void setCNP(string newCNP) { cnp = newCNP;}
 };
 
 #endif

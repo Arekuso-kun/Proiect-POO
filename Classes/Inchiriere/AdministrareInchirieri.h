@@ -14,6 +14,7 @@ public:
     ~AdministrareInchirieri();
     void AdaugaInchiriere(Inchiriere inchiriere);
     vector<Inchiriere> GetInchirieri(int& nrInchirieri);
+    bool StergeInchiriereDupaID(int idInchiriere);
 
 private:
     string numeFisier;
