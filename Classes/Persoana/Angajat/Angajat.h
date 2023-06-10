@@ -20,7 +20,7 @@ public:
     int getSalariu() const {return salariu;}
 
     void setFunctie(const string& newFunctie) {functie = newFunctie;}
-    void setSalariu(double newSalariu) {salariu = newSalariu;}
+    void setSalariu(int newSalariu) {salariu = newSalariu;}
 };
 
 #endif

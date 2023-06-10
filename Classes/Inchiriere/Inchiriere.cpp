@@ -1,4 +1,5 @@
 #include "Inchiriere.h"
+#include "AdministrareInchirieri.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -63,30 +64,26 @@ string Inchiriere::ConversieLaSir_PentruFisier() {
 }
 
 istream &operator>>(istream &is, Inchiriere &inchiriere) {
-//    cout << "Introduceti ID-ul autovehiculului: ";
-//    is >> inchiriere.idAutovehicul;
-
     cout << "Introduceti numele clientului: ";
-    is >> inchiriere.nume;
+    cin.ignore();
+    getline(is, inchiriere.nume);
 
     cout << "Introduceti prenumele clientului: ";
-    is >> inchiriere.prenume;
+    getline(is, inchiriere.prenume);
 
     cout << "Introduceti adresa de email a clientului: ";
-    is >> inchiriere.email;
+    getline(is, inchiriere.email);
 
     cout << "Introduceti CNP clientului: ";
-    is >> inchiriere.cnp;
+    getline(cin, inchiriere.cnp);
 
     cout << "Introduceti adresa clientului: ";
-    cin.ignore();
     getline(is, inchiriere.adresa);
 
     cout << "Introduceti numarul de telefon al clientului: ";
-    is >> inchiriere.telefon;
+    getline(is, inchiriere.telefon);
 
     cout << "Introduceti data inchirierii: ";
-    cin.ignore();
     getline(is, inchiriere.dataInchiriere);
 
     cout << "Introduceti data returnarii: ";
@@ -99,4 +96,57 @@ ostream& operator<<(ostream& os, const Inchiriere& inchiriere)
 {
     os << inchiriere.Info();
     return os;
+}
+
+void Inchiriere::citireInchiriereExistenta() {
+    string input;
+
+    cout << "Introduceti numele clientului (default: " << nume << "): ";
+    cin.ignore();
+    getline(cin, input);
+    if (!input.empty()) {
+        nume = input;
+    }
+
+    cout << "Introduceti prenumele clientului (default: " << prenume << "): ";
+    getline(cin, input);
+    if (!input.empty()) {
+        prenume = input;
+    }
+
+    cout << "Introduceti adresa de email a clientului (default: " << email << "): ";
+    getline(cin, input);
+    if (!input.empty()) {
+        email = input;
+    }
+
+    cout << "Introduceti CNP clientului (default: " << cnp << "): ";
+    getline(cin, input);
+    if (!input.empty()) {
+        cnp = input;
+    }
+
+    cout << "Introduceti adresa clientului (default: " << adresa << "): ";
+    getline(cin, input);
+    if (!input.empty()) {
+        adresa = input;
+    }
+
+    cout << "Introduceti numarul de telefon al clientului (default: " << telefon << "): ";
+    getline(cin, input);
+    if (!input.empty()) {
+        telefon = input;
+    }
+
+    cout << "Introduceti data inchirierii (default: " << dataInchiriere << "): ";
+    getline(cin, input);
+    if (!input.empty()) {
+        dataInchiriere = input;
+    }
+
+    cout << "Introduceti data returnarii (default: " << dataReturnare << "): ";
+    getline(cin, input);
+    if (!input.empty()) {
+        dataReturnare = input;
+    }
 }

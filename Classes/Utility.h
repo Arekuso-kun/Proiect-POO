@@ -23,6 +23,16 @@ public:
 
         return tokens;
     }
+
+    static string toLowercase(string str)
+    {
+        string result = str;
+        for (char& c : result)
+        {
+            c = tolower(c);
+        }
+        return result;
+    }
 };
 
 #endif

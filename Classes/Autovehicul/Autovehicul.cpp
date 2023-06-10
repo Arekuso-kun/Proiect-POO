@@ -65,7 +65,7 @@ void Autovehicul::returnCar() {
 }
 
 string Autovehicul::Info() const {
-    string info = "ID: " + to_string(id) + "\n";
+    string info = "ID: " + (id == -1 ? "N/A" : to_string(id)) + "\n";
     info += "Marca: " + marca + "\n";
     info += "Model: " + model + "\n";
     info += "Categorie: " + categorie + "\n";
@@ -102,6 +102,162 @@ string Autovehicul::ConversieLaSir_PentruFisier() const {
     return output;
 }
 
+string Autovehicul::selecteazaCategorieAutovehicul() {
+    int optiune = -1;
+    string categorie;
+
+    cout << "Selectati categoria autovehiculului: " << endl;
+    cout << "1. Compact" << endl;
+    cout << "2. Berlina" << endl;
+    cout << "3. Break" << endl;
+    cout << "4. SUV" << endl;
+    cout << "5. Coupe" << endl;
+    cout << "6. Cabrio" << endl;
+    cout << "Introduceti o optiune... ";
+
+    while (optiune < 1 || optiune > 6) {
+        cin >> optiune;
+
+        switch (optiune) {
+            case 1:
+                categorie = "Compact";
+                break;
+            case 2:
+                categorie = "Berlina";
+                break;
+            case 3:
+                categorie = "Break";
+                break;
+            case 4:
+                categorie = "SUV";
+                break;
+            case 5:
+                categorie = "Coupe";
+                break;
+            case 6:
+                categorie = "Cabrio";
+                break;
+            default:
+                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
+                break;
+        }
+    }
+
+    return categorie;
+}
+
+bool Autovehicul::selecteazaDisponibilitateAutovehicul() {
+    int optiune = -1;
+    bool disponibil;
+
+    cout << "Selectati disponibilitatea autovehiculului: " << endl;
+    cout << "1. Disponibil" << endl;
+    cout << "2. Indisponibil" << endl;
+    cout << "Introduceti o optiune... ";
+    while (optiune < 1 || optiune > 2) {
+        cin >> optiune;
+
+        switch (optiune) {
+            case 1:
+                disponibil = true;
+                break;
+            case 2:
+                disponibil = false;
+                break;
+            default:
+                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
+                break;
+        }
+    }
+
+    return disponibil;
+}
+
+string Autovehicul::selecteazaTransmisieAutovehicul() {
+    int optiune = -1;
+    string transmisie;
+
+    cout << "Selectati tipul de transmisie al autovehiculului: " << endl;
+    cout << "1. Manuala" << endl;
+    cout << "2. Automata" << endl;
+    cout << "Introduceti o optiune... ";
+    while (optiune < 1 || optiune > 2) {
+        cin >> optiune;
+
+        switch (optiune) {
+            case 1:
+                transmisie = "Manuala";
+                break;
+            case 2:
+                transmisie = "Automata";
+                break;
+            default:
+                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
+                break;
+        }
+    }
+
+    return transmisie;
+}
+
+bool Autovehicul::selecteazaAerConditionatAutovehicul() {
+    int optiune = -1;
+    bool aerConditionat;
+
+    cout << "Selectati daca autovehiculul are aer conditionat: " << endl;
+    cout << "1. Da" << endl;
+    cout << "2. Nu" << endl;
+    cout << "Introduceti o optiune... ";
+    while (optiune < 1 || optiune > 2) {
+        cin >> optiune;
+
+        switch (optiune) {
+            case 1:
+                aerConditionat = true;
+                break;
+            case 2:
+                aerConditionat = false;
+                break;
+            default:
+                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
+                break;
+        }
+    }
+
+    return aerConditionat;
+}
+
+string Autovehicul::selecteazaCombustibilAutovehicul() {
+    int optiune = -1;
+    string combustibil;
+
+    cout << "Selectati tipul de combustibil al autovehiculului: " << endl;
+    cout << "1. Benzina" << endl;
+    cout << "2. Motorina" << endl;
+    cout << "3. Electric" << endl;
+    cout << "Introduceti o optiune... ";
+    while (optiune < 1 || optiune > 3) {
+        cin >> optiune;
+
+        switch (optiune) {
+            case 1:
+                combustibil = "Benzina";
+                break;
+            case 2:
+                combustibil = "Motorina";
+                break;
+            case 3:
+                combustibil = "Electric";
+                break;
+            default:
+                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
+                break;
+        }
+    }
+
+    return combustibil;
+}
+
 istream& operator>>(istream& is, Autovehicul& autovehicul)
 {
     cout << "Introduceti marca autovehiculului: ";
@@ -111,64 +267,12 @@ istream& operator>>(istream& is, Autovehicul& autovehicul)
     cout << "Introduceti modelul autovehiculului: ";
     getline(is, autovehicul.model);
 
-    int optiune = -1;
-    cout << "Selectati categoria autovehiculului: " << endl;
-    cout << "1. Compact" << endl;
-    cout << "2. Berlina" << endl;
-    cout << "3. Break" << endl;
-    cout << "4. SUV" << endl;
-    cout << "5. Coupe" << endl;
-    cout << "6. Cabrio" << endl;
-    cout << "Introduceti o optiune... ";
-    while (optiune < 1 || optiune > 6) {
-        is >> optiune;
-
-        switch (optiune) {
-            case 1:
-                autovehicul.categorie = "Compact";
-                break;
-            case 2:
-                autovehicul.categorie = "Berlina";
-                break;
-            case 3:
-                autovehicul.categorie = "Break";
-                break;
-            case 4:
-                autovehicul.categorie = "SUV";
-                break;
-            case 5:
-                autovehicul.categorie = "Coupe";
-                break;
-            case 6:
-                autovehicul.categorie = "Cabrio";
-                break;
-            default:
-                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
-                break;
-        }
-    }
+    autovehicul.categorie = Autovehicul::selecteazaCategorieAutovehicul();
 
     cout << "Introduceti costul pe zi al autovehiculului (RON): ";
     is >> autovehicul.cost_zi;
 
-    optiune = -1;
-    cout << "Selectati disponibilitatea autovehiculului: " << endl;
-    cout << "0. Indisponibil" << endl;
-    cout << "1. Disponibil" << endl;
-    cout << "Introduceti o optiune... ";
-    while (optiune < 0 || optiune > 1) {
-        is >> optiune;
-
-        switch (optiune) {
-            case 0:
-            case 1:
-                break;
-            default:
-                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
-                break;
-        }
-    }
-    autovehicul.disponibil = (optiune == 1);
+    autovehicul.disponibil = Autovehicul::selecteazaDisponibilitateAutovehicul();
 
     cout << "Introduceti capacitatea motorului autovehiculului (cm^3): ";
     is >> autovehicul.capacitate_motor;
@@ -182,70 +286,11 @@ istream& operator>>(istream& is, Autovehicul& autovehicul)
     cout << "Introduceti volumul portbagajului autovehiculului (L): ";
     is >> autovehicul.volum_portbagaj;
 
-    optiune = -1;
-    cout << "Selectati tipul de transmisie al autovehiculului: " << endl;
-    cout << "1. Manuala" << endl;
-    cout << "2. Automata" << endl;
-    cout << "Introduceti o optiune... ";
-    while (optiune < 1 || optiune > 2) {
-        is >> optiune;
+    autovehicul.transmisie = Autovehicul::selecteazaTransmisieAutovehicul();
 
-        switch (optiune) {
-            case 1:
-                autovehicul.transmisie = "Manuala";
-                break;
-            case 2:
-                autovehicul.transmisie = "Automata";
-                break;
-            default:
-                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
-                break;
-        }
-    }
+    autovehicul.aer_conditionat = Autovehicul::selecteazaAerConditionatAutovehicul();
 
-    optiune = -1;
-    cout << "Selectati daca autovehiculul are aer conditionat: " << endl;
-    cout << "0. Nu" << endl;
-    cout << "1. Da" << endl;
-    cout << "Introduceti o optiune... ";
-    while (optiune < 0 || optiune > 1) {
-        is >> optiune;
-
-        switch (optiune) {
-            case 0:
-            case 1:
-                break;
-            default:
-                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
-                break;
-        }
-    }
-    autovehicul.aer_conditionat = (optiune == 1);
-
-    optiune = -1;
-    cout << "Selectati tipul de combustibil al autovehiculului: " << endl;
-    cout << "1. Benzina" << endl;
-    cout << "2. Motorina" << endl;
-    cout << "3. Electric" << endl;
-    cout << "Introduceti o optiune... ";
-    while (optiune < 1 || optiune > 3) {
-        is >> optiune;
-
-        switch (optiune) {
-            case 1:
-                autovehicul.tip_combustibil = "Benzina";
-                break;
-            case 2:
-                autovehicul.tip_combustibil = "Motorina";
-                break;
-            case 3:
-                autovehicul.tip_combustibil = "Electric";
-                break;
-            default:
-                cout << "Optiune invalida. Va rugam selectati o optiune valida... ";
-                break;
-        }
-    }
+    autovehicul.tip_combustibil = Autovehicul::selecteazaCombustibilAutovehicul();
 
     return is;
 }
@@ -254,4 +299,68 @@ ostream& operator<<(ostream& os, const Autovehicul& autovehicul)
 {
     os << autovehicul.Info();
     return os;
+}
+
+void Autovehicul::citireAutovehiculExistent() {
+    string input;
+
+    cout << "Introduceti marca autovehiculului (default: " << marca << "): ";
+    cin.ignore();
+    getline(cin, input);
+    if (!input.empty()) {
+        marca = input;
+    }
+
+    cout << "Introduceti modelul autovehiculului (default: " << model << "): ";
+    getline(cin, input);
+    if (!input.empty()) {
+        model = input;
+    }
+
+    cout << "(Se va inlocui urmatoarea categorie: " << categorie << ")\n";
+    categorie = Autovehicul::selecteazaCategorieAutovehicul();
+
+    cout << "Introduceti costul pe zi al autovehiculului (RON) (default: " << to_string(cost_zi) << "): ";
+    cin.ignore();
+    getline(cin, input);
+    if (!input.empty()) {
+        cost_zi = stoi(input);
+    }
+
+    cout << "(Anterior autovehiculul" << (!disponibil ? " nu" : "" ) << " era disponibil)\n";
+    disponibil = Autovehicul::selecteazaDisponibilitateAutovehicul();
+
+    cout << "Introduceti capacitatea motorului autovehiculului (cm^3) (default: " << to_string(capacitate_motor) << "): ";
+    cin.ignore();
+    getline(cin, input);
+    if (!input.empty()) {
+        capacitate_motor = stoi(input);
+    }
+
+    cout << "Introduceti numarul de pasageri al autovehiculului (default: " << to_string(nr_pasageri) << "): ";
+    getline(cin, input);
+    if (!input.empty()) {
+        nr_pasageri = stoi(input);
+    }
+
+    cout << "Introduceti numarul de portiere al autovehiculului (default: " << to_string(nr_portiere) << "): ";
+    getline(cin, input);
+    if (!input.empty()) {
+        nr_portiere = stoi(input);
+    }
+
+    cout << "Introduceti volumul portbagajului autovehiculului (L) (default: " << to_string(volum_portbagaj) << "): ";
+    getline(cin, input);
+    if (!input.empty()) {
+        volum_portbagaj = stoi(input);
+    }
+
+    cout << "(Se va inlocui urmatoarea transmisie: " << transmisie << ")\n";
+    transmisie = Autovehicul::selecteazaTransmisieAutovehicul();
+
+    cout << "(Anterior autovehiculul" << (!aer_conditionat ? " nu" : "" ) << " avea aer conditionat)\n";
+    aer_conditionat = Autovehicul::selecteazaAerConditionatAutovehicul();
+
+    cout << "(Se va inlocui urmatoarul tip de combustibil: " << tip_combustibil << ")\n";
+    tip_combustibil = Autovehicul::selecteazaCombustibilAutovehicul();
 }

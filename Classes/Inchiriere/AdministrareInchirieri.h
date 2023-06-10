@@ -15,6 +15,9 @@ public:
     void AdaugaInchiriere(Inchiriere inchiriere);
     vector<Inchiriere> GetInchirieri(int& nrInchirieri);
     bool StergeInchiriereDupaID(int idInchiriere);
+    bool ModificaInchiriereDinFisier(int idInchiriere, Inchiriere inchiriereModificata);
+    vector<Inchiriere> CautaInchiriere(string nume, string prenume, string email, string cnp, int idInchiriere, int idAutovehicul);
+    Inchiriere CautaInchiriereDupaID(int idInchiriere);
 
 private:
     string numeFisier;

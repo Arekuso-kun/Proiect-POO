@@ -84,6 +84,14 @@ public:
     string ConversieLaSir_PentruFisier() const;
     friend istream& operator>>(istream& is, Autovehicul& autovehicul);
     friend ostream& operator<<(ostream& os, const Autovehicul& autovehicul);
+
+    void citireAutovehiculExistent();
+
+    static string selecteazaCategorieAutovehicul();
+    static bool selecteazaDisponibilitateAutovehicul();
+    static string selecteazaTransmisieAutovehicul();
+    static bool selecteazaAerConditionatAutovehicul();
+    static string selecteazaCombustibilAutovehicul();
 };
 
 #endif

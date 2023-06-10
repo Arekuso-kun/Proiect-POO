@@ -55,6 +55,8 @@ public:
     string ConversieLaSir_PentruFisier();
     friend istream& operator>>(istream& is, Inchiriere& inchiriere);
     friend ostream& operator<<(ostream& os, const Inchiriere& inchiriere);
+
+    void citireInchiriereExistenta();
 };
 
 #endif
