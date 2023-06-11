@@ -9,10 +9,12 @@
 #include "Classes/Inchiriere/AdministrareInchirieri.cpp"
 #include "Classes/Autovehicul/AdministrareAutovehicule.h"
 #include "Classes/Autovehicul/AdministrareAutovehicule.cpp"
-#include "Classes/Persoana/Angajat/Angajat.h"
-#include "Classes/Persoana/Angajat/Angajat.cpp"
-#include "Classes/Persoana/Client/Client.h"
-#include "Classes/Persoana/Client/Client.cpp"
+#include "Classes/Cont/Cont.h"
+#include "Classes/Cont/Cont.cpp"
+#include "Classes/Cont/AdministrareConturi.h"
+#include "Classes/Cont/AdministrareConturi.cpp"
+#include "Classes/Client/Client.h"
+#include "Classes/Client/Client.cpp"
 #include "single_include/tabulate/tabulate.hpp"
 
 using namespace std;
@@ -82,15 +84,15 @@ void afisareTabelInchirieri(const vector<Inchiriere>& inchirieri, int nrInchirie
         int idAutovehicul = inchirieri[i].getIdAutovehicul();
         string autovehicul = adminAutovehicule.CautaAutovehiculDupaID(idAutovehicul).getMarca() + ' ' + adminAutovehicule.CautaAutovehiculDupaID(idAutovehicul).getModel() + " (#" + to_string(idAutovehicul) + ") ";
         tInchirieri.add_row({(inchirieri[i].getIdInchiriere() == -1 ? "N/A" : to_string(inchirieri[i].getIdInchiriere())),
-                (inchirieri[i].getIdAutovehicul() == -1 ? "N/A" : autovehicul),
-                inchirieri[i].getNume(),
-                inchirieri[i].getPrenume(),
-                inchirieri[i].getCNP(),
-                inchirieri[i].getEmail(),
-                inchirieri[i].getAdresa(),
-                inchirieri[i].getTelefon(),
-                inchirieri[i].getDataInchiriere(),
-                inchirieri[i].getDataReturnare()});
+                             (inchirieri[i].getIdAutovehicul() == -1 ? "N/A" : autovehicul),
+                             inchirieri[i].getNume(),
+                             inchirieri[i].getPrenume(),
+                             inchirieri[i].getCNP(),
+                             inchirieri[i].getEmail(),
+                             inchirieri[i].getAdresa(),
+                             inchirieri[i].getTelefon(),
+                             inchirieri[i].getDataInchiriere(),
+                             inchirieri[i].getDataReturnare()});
     }
 
     tInchirieri[0].format()
@@ -99,6 +101,33 @@ void afisareTabelInchirieri(const vector<Inchiriere>& inchirieri, int nrInchirie
             .font_align(FontAlign::center);
 
     cout << tInchirieri << endl;
+
+}
+
+void afisareTabelConturi(const vector<Cont>& conturi, int nrConturi)
+{
+    if (conturi.empty()) {
+        cout << "Nu exista conturi de afisat." << endl;
+        return;
+    }
+
+    Table tConturi;
+    AdministrareConturi adminConturi = AdministrareConturi();
+
+    tConturi.add_row({"Index", "Email", "Parola (encrypted)", "Tip Cont"});
+    for (int i = 0; i < nrConturi; i++) {
+        tConturi.add_row({to_string(i + 1),
+                          conturi[i].getEmail(),
+                          conturi[i].getParola(),
+                          conturi[i].getTipCont()});
+    }
+
+    tConturi[0].format()
+            .font_style({FontStyle::bold})
+            .padding(1)
+            .font_align(FontAlign::center);
+
+    cout << tConturi << endl;
 
 }
 
@@ -371,10 +400,121 @@ int meniuCautareInchiriere(vector<Inchiriere> inchirieri)
     return idSelectat;
 }
 
+string meniuCautareCont(vector<Cont> conturi)
+{
+    string email, tip, emailSelectat;
+    int optiune, indexSelectat = -1;
+    AdministrareConturi adminConturi = AdministrareConturi();
+    Cont cont;
+
+    bool exitMenu = false;
+
+    while (!exitMenu) {
+        bool exitMenuSelectare = false;
+        system("clear");
+        cout << " FILTRE DISPONIBILE:\n";
+        cout << "1. Filtru dupa email" << (email.empty() ? "" : " (Filtru: " + email + ")") << '\n';
+        cout << "2. Filtru dupa tip cont" << (tip.empty() ? "" : " (Filtru: " + tip + ")") << '\n';
+        cout << "3. Reseteaza filtre\n";
+        cout << '\n';
+        cout << "9. Afiseaza rezultate\n";
+        cout << "0. Inapoi la meniul principal\n";
+
+        string contSelectat = emailSelectat + " (" + adminConturi.CautaContDupaEmail(emailSelectat).getTipCont() + ") ";
+        cout << "\nCont selectat: " + (emailSelectat == "" ? "N/A" : contSelectat) + "\n";
+
+        cout << "\nIntroduceti o optiune... ";
+        cin >> optiune;
+        cout << endl;
+
+        switch (optiune) {
+            case 1:
+                cout << "Introduceti email-ul: ";
+                cin.ignore();
+                getline(cin, email);
+                break;
+            case 2:
+                tip = cont.selecteazaTipCont();
+                break;
+            case 3:
+                email = "";
+                tip = "";
+                cout << "Filtre resetate." << endl;
+                cin.ignore();
+                cin.get();
+                break;
+            case 9:
+            {
+                vector<Cont> searchResults = adminConturi.CautaCont(email, tip);
+
+                if (searchResults.empty()) {
+                    cout << "Niciun cont gasit conform filtrelor specificate." << endl;
+                    cin.ignore();
+                    cin.get();
+                } else {
+                    cout << "Conturile gasite conform filtrelor specificate:" << endl;
+                    afisareTabelConturi(searchResults, searchResults.size());
+
+                    while (!exitMenuSelectare) {
+                        cout << "1. Selecteaza cont\n";
+                        cout << "0. Inapoi la cautare\n";
+                        cout << "\nIntroduceti o optiune... ";
+                        cin >> optiune;
+                        cout << endl;
+
+                        switch (optiune) {
+                            case 1:
+                                cout << "Introduceti index-ul contului: ";
+                                cin >> indexSelectat;
+                                if(searchResults[indexSelectat-1].getEmail() == "")
+                                {
+                                    indexSelectat = -1;
+                                    cout << "Contul specificat nu a fost gasit." << endl;
+                                    cin.ignore();
+                                    cin.get();
+                                    for(int i = 1; i <= 8; i++)
+                                        cout << "\33[2K\r\033[A\r";
+                                }
+                                else {
+                                    emailSelectat = searchResults[indexSelectat-1].getEmail();
+                                    exitMenuSelectare = true;
+                                }
+                                break;
+                            case 0:
+                                exitMenuSelectare = true;
+                                break;
+                            default:
+                                cout << "Optiune invalida. Va rugam sa selectati o optiune valida." << endl;
+
+                                cin.ignore();
+                                cin.get();
+                                for(int i = 1; i <= 7; i++)
+                                    cout << "\33[2K\r\033[A\r";
+                                break;
+                        }
+                    }
+                }
+
+                break;
+            }
+            case 0:
+                exitMenu = true;
+                break;
+            default:
+                cout << "Optiune invalida. Va rugam sa selectati o optiune valida." << endl;
+
+                cin.ignore();
+                cin.get();
+                break;
+        }
+    }
+    return emailSelectat;
+}
+
 int main()
 {
     int optiune;
-    int nrInchirieri=0, nextIdInchiriere=0, nrAutovehicule=0, nextIdAutovehicul=0;
+    int nrInchirieri=0, nextIdInchiriere=0, nrAutovehicule=0, nextIdAutovehicul=0, nrConturi=0;
     int mod = 1;
 
     AdministrareInchirieri adminInchirieri = AdministrareInchirieri();
@@ -383,6 +523,8 @@ int main()
     AdministrareAutovehicule adminAutovehicule = AdministrareAutovehicule();
     update_nrAutovehicule_nextIdAutovehicul(nrAutovehicule, nextIdAutovehicul, adminAutovehicule);
 
+    AdministrareConturi adminConturi = AdministrareConturi();
+
     vector<Inchiriere> inchirieri = adminInchirieri.GetInchirieri(nrInchirieri);
     Inchiriere inchiriere;
 
@@ -390,10 +532,17 @@ int main()
     Autovehicul autovehicul_meniu1;
     Autovehicul autovehicul_meniu2;
 
+    vector<Cont> conturi = adminConturi.GetConturi(nrConturi);
+    Cont cont;
+    Cont cont_autentificare;
+    Cont contVerificare;
+
     int idAutovehiculSelectat_meniu1 = -1;
     bool infoInchiriere = false;
     int idInchiriereSelectat_meniu2 = -1, idAutovehiculSelectat_meniu2 = -1;
     bool infoAutovehicul = false;
+    string inchiriereSelectata, autovehiculSelectat, autovehiculSelectat_client, contSelectat, ContAuthString, emailSelectat;
+    bool autentificat = false;
 
     do
     {
@@ -401,16 +550,24 @@ int main()
         // system("cls"); // pentru windows
 
         if(mod == 1) {
+            ContAuthString = emailSelectat + " (" + adminConturi.CautaContDupaEmail(emailSelectat).getTipCont() + ") ";
+            autovehiculSelectat_client = adminAutovehicule.CautaAutovehiculDupaID(idAutovehiculSelectat_meniu1).getMarca() + ' '
+                    + adminAutovehicule.CautaAutovehiculDupaID(idAutovehiculSelectat_meniu1).getModel()
+                    + " (#" + to_string(idAutovehiculSelectat_meniu1) + ")";
             cout << " INCHIRIERI AUTO\n";
             cout << "1. Autentificare\n";
             cout << "2. Inregistrare\n";
             cout << "3. Inchirierile mele\n";
             cout << '\n';
+            cout << "Cont curent: " << (!autentificat ? "N/A (te poti autentifica accesand optiunea \"1. Autentificare\")" : ContAuthString) << "\n";
+            cout << '\n';
             cout << " CREAZA O INCHIRIERE\n";
-            cout << "4. Cauta autovehicul\n";
+            cout << "4. Cauta/Selecteaza autovehicul\n";
             cout << "5. " << (!infoInchiriere ? "Introduce" : "Modifica") << " informatii inchiriere\n";
             cout << "6. Afisare informatii inchiriere\n";
             cout << "7. Salveaza informatii inchiriere\n";
+            cout << '\n';
+            cout << "Autovehicul selectat: " << (!infoInchiriere ? "N/A (poti selecta un autovehicul accesand optiunea \"4. Cauta/Selecteaza autovehicul\")" : autovehiculSelectat_client) << "\n";
             cout << '\n';
             cout << "8. Meniu angajati\n";
             cout << "9. Meniu admin\n";
@@ -420,21 +577,49 @@ int main()
             cout << endl;
             switch (toupper(optiune)) {
                 case 1: {
-                    cout << "Autentificare";
+                    cin >> cont_autentificare;
+                    contVerificare = adminConturi.CautaContDupaEmail(cont_autentificare.getEmail());
+                    if(contVerificare.getEmail() != cont_autentificare.getEmail()) {
+                        cout << "Eroare! Nu s-a gasit niciun cont cu email-ul introdus.";
+                    }
+                    else if(Utility::decryptString(contVerificare.getParola()) != cont_autentificare.getParola()) {
+                        cout << "Eroare! Parola gresita.";
+                    }
+                    else {
+                        autentificat = true;
+                        cout << "Autentificare cu succes.";
+                    }
 
                     cin.ignore();
                     cin.get();
                     break;
                 }
                 case 2: {
-                    cout << "Inregistrare";
+                    cin >> cont;
+                    cont.setTipCont("Client");
+                    adminConturi.AdaugaCont(cont);
+                    cout << "Inregistrare cu succes.";
 
                     cin.ignore();
                     cin.get();
                     break;
                 }
                 case 3: {
-                    cout << "Inchirierile mele";
+                    if(!autentificat) {
+                        cout << "Eroare! Aceasta optiune necesita autentificare.";
+                    }
+                    else {
+                        vector<Inchiriere> searchResults = adminInchirieri.CautaInchiriere("", "", cont_autentificare.getEmail(), "", -1, -1);
+
+                        if (searchResults.empty()) {
+                            cout << "Nicio inchiriere gasita." << endl;
+                            cin.ignore();
+                            cin.get();
+                        } else {
+                            cout << "Inchirierile gasite:" << endl;
+                            afisareTabelInchirieri(searchResults, searchResults.size());
+                        }
+                    }
 
                     cin.ignore();
                     cin.get();
@@ -482,6 +667,7 @@ int main()
                     adminInchirieri.AdaugaInchiriere(inchiriere);
 
                     idAutovehiculSelectat_meniu1 = -1;
+                    cout << "Salvat";
 
                     cin.ignore();
                     cin.get();
@@ -489,16 +675,13 @@ int main()
                 }
 
                 case 8: {
-                    string parola;
-                    cout << "Introduce parola: ";
-                    cin >> parola;
-
-                    if (parola == "123") {
-                        mod = 2;
-                        cout << "Parola corecta!" << endl;
+                    if("Angajat" != cont.getTipCont() && "Administrator" != cont.getTipCont()) {
+                        cout << "Eroare! Permisiune insuficienta.";
                     }
-                    else
-                        cout << "Parola gresita!" << endl;
+                    else {
+                        mod = 2;
+                        cout << "Succes.";
+                    }
 
                     cin.ignore();
                     cin.get();
@@ -506,14 +689,13 @@ int main()
                 }
 
                 case 9: {
-                    string parola;
-                    cout << "Introduce parola: ";
-                    cin >> parola;
-
-                    if (parola == "admin")
+                    if("Administrator" != cont.getTipCont()) {
+                        cout << "Eroare! Permisiune insuficienta.";
+                    }
+                    else {
                         mod = 3;
-                    else
-                        cout << "Parola gresita!";
+                        cout << "Succes.";
+                    }
 
                     cin.ignore();
                     cin.get();
@@ -531,32 +713,31 @@ int main()
             }
         }
         else if(mod == 2) {
-            string inchiriereSelectata = adminInchirieri.CautaInchiriereDupaID(idInchiriereSelectat_meniu2).getNume() + ' '
+            inchiriereSelectata = adminInchirieri.CautaInchiriereDupaID(idInchiriereSelectat_meniu2).getNume() + ' '
                                          + adminInchirieri.CautaInchiriereDupaID(idInchiriereSelectat_meniu2).getPrenume()
                                          + " (#" + to_string(idInchiriereSelectat_meniu2) + ")";
-            string autovehiculSelectat = adminAutovehicule.CautaAutovehiculDupaID(idAutovehiculSelectat_meniu2).getMarca() + ' '
+            autovehiculSelectat = adminAutovehicule.CautaAutovehiculDupaID(idAutovehiculSelectat_meniu2).getMarca() + ' '
                                          + adminAutovehicule.CautaAutovehiculDupaID(idAutovehiculSelectat_meniu2).getModel()
                                          + " (#" + to_string(idAutovehiculSelectat_meniu2) + ")";
 
             cout << " INCHIRIERI\n";
             cout << "1. Afisare inchirieri\n"; // done
-            cout << "2. Cauta inchiriere\n"; // validare date
+            cout << "2. Cauta/Selecteaza inchiriere\n"; // validare date
             cout << "3. Modifica inchiriere\n"; // done
             cout << "4. Sterge inchiriere\n"; // done
             cout << '\n';
-            cout << "Inchiriere selectata: " << (idInchiriereSelectat_meniu2 == -1 ? "N/A (poti selecta o inchiriere accesand optiunea \"2. Cauta inchiriere\")" : inchiriereSelectata) << "\n";
+            cout << "Inchiriere selectata: " << (idInchiriereSelectat_meniu2 == -1 ? "N/A (poti selecta o inchiriere accesand optiunea \"2. Cauta/Selecteaza inchiriere\")" : inchiriereSelectata) << "\n";
             cout << '\n';
             cout << " AUTOVEHICULE\n";
             cout << "6. " << (!infoAutovehicul ? "Introduce" : "Modifica") << " informatii autovehicul\n"; // validare date
             cout << "7. Afisare informatii autovehicul\n"; // done
             cout << "8. Salvare informatii autovehicul\n"; // done
             cout << "9. Afisare autovehicule\n"; // done
-            cout << "10. Cauta autovehicul\n"; // aproape done
-            cout << "11. Modifica autovehicul\n"; // done
+            cout << "10. Cauta/Selecteaza autovehicul\n"; // aproape done
+            cout << "11. Modifica informatii autovehicul\n"; // done
             cout << "12. Sterge autovehicul\n"; // done
             cout << '\n';
-            cout << "Autovehicul selectat: " << (idAutovehiculSelectat_meniu2 == -1 ? "N/A (poti selecta un autovehicul accesand optiunea \"10. Cauta autovehicul\")" : autovehiculSelectat) << "\n";
-
+            cout << "Autovehicul selectat: " << (idAutovehiculSelectat_meniu2 == -1 ? "N/A (poti selecta un autovehicul accesand optiunea \"10. Cauta/Selecteaza autovehicul\")" : autovehiculSelectat) << "\n";
             cout << '\n';
             cout << "13. Meniu clienti\n";
             cout << "14. Meniu admin\n";
@@ -583,7 +764,7 @@ int main()
                     string raspuns;
 
                     if (idInchiriereSelectat_meniu2 == -1) {
-                        cout << "Nu ati selectat nicio inchiriere. Va rugam selectati o inchiriere valida accesand optiunea \"2. Cauta inchiriere\"." << endl;
+                        cout << "Nu ati selectat nicio inchiriere. Va rugam selectati o inchiriere valida accesand optiunea \"2. Cauta/Selecteaza inchiriere\"." << endl;
                     } else {
                         bool confirmare = false;
                         while (!confirmare) {
@@ -625,7 +806,7 @@ int main()
                     string raspuns;
 
                     if (idInchiriereSelectat_meniu2 == -1) {
-                        cout << "Nu ati selectat nicio inchiriere. Va rugam selectati o inchiriere valida accesand optiunea \"2. Cauta inchiriere\"." << endl;
+                        cout << "Nu ati selectat nicio inchiriere. Va rugam selectati o inchiriere valida accesand optiunea \"2. Cauta/Selecteaza inchiriere\"." << endl;
                     } else {
                         bool confirmare = false;
                         while (!confirmare) {
@@ -637,6 +818,7 @@ int main()
                             if (raspuns == "Da" || raspuns == "da" || raspuns == "DA" || raspuns == "dA" || raspuns == "d" || raspuns == "D") {
                                 bool rezultat = adminInchirieri.StergeInchiriereDupaID(idInchiriereSelectat_meniu2);
                                 if (rezultat) {
+                                    idInchiriereSelectat_meniu2 = -1;
                                     cout << "Inchirierea a fost stearsa cu succes." << endl;
                                 } else {
                                     cout << "Nu s-a putut gasi inchirierea pentru stergere." << endl;
@@ -722,7 +904,7 @@ int main()
                     string raspuns;
 
                     if (idAutovehiculSelectat_meniu2 == -1) {
-                        cout << "Nu ati selectat niciun autovehicul. Va rugam selectati un autovehicul valid accesand optiunea \"10. Cauta autovehicul\"." << endl;
+                        cout << "Nu ati selectat niciun autovehicul. Va rugam selectati un autovehicul valid accesand optiunea \"10. Cauta/Selecteaza autovehicul\"." << endl;
                     } else {
                         bool confirmare = false;
                         while (!confirmare) {
@@ -764,7 +946,7 @@ int main()
                     string raspuns;
 
                     if (idAutovehiculSelectat_meniu2 == -1) {
-                        cout << "Nu ati selectat niciun autovehicul. Va rugam selectati un autovehicul valid accesand optiunea \"10. Cauta autovehicul\"." << endl;
+                        cout << "Nu ati selectat niciun autovehicul. Va rugam selectati un autovehicul valid accesand optiunea \"10. Cauta/Selecteaza autovehicul\"." << endl;
                     } else {
                         bool confirmare = false;
                         while (!confirmare) {
@@ -776,7 +958,8 @@ int main()
                             if (raspuns == "Da" || raspuns == "da" || raspuns == "DA" || raspuns == "dA" || raspuns == "d" || raspuns == "D") {
                                 bool rezultat = adminAutovehicule.StergeAutovehiculDupaID(idAutovehiculSelectat_meniu2);
                                 if (rezultat) {
-                                    cout << "Autovehiculul a fost stears cu succes." << endl;
+                                    idAutovehiculSelectat_meniu2 = -1;
+                                    cout << "Autovehiculul a fost sters cu succes." << endl;
                                 } else {
                                     cout << "Nu s-a putut gasi autovehiculul pentru stergere." << endl;
                                 }
@@ -808,16 +991,13 @@ int main()
                 }
 
                 case 14: {
-                    string parola;
-                    cout << "Introduce parola: ";
-                    cin >> parola;
-
-                    if (parola == "admin") {
-                        mod = 3;
-                        cout << "Parola corecta!" << endl;
+                    if("Administrator" != cont.getTipCont()) {
+                        cout << "Eroare! Permisiune insuficienta.";
                     }
-                    else
-                        cout << "Parola gresita!";
+                    else {
+                        mod = 3;
+                        cout << "Succes.";
+                    }
 
                     cin.ignore();
                     cin.get();
@@ -835,34 +1015,29 @@ int main()
             }
         }
         else if(mod == 3) {
-            cout << " CLIENTI\n";
-            cout << "1. Afisare date clienti\n";
-            cout << "2. Cauta client\n";
-            cout << "4. Modifica date client\n";
-            cout << "4. Sterge date client\n";
+            contSelectat = emailSelectat + " (" + adminConturi.CautaContDupaEmail(emailSelectat).getTipCont() + ") ";
+            cout << " CONTURI\n";
+            cout << "1. Creare cont\n";
+            cout << "2. Afisare conturi\n";
+            cout << "3. Cauta/Selecteaza cont\n";
+            cout << "4. Modifica date cont\n";
+            cout << "5. Sterge cont\n";
             cout << '\n';
-            cout << " ANGAJATI\n";
-            cout << "5. Introducere date angajat\n";
-            cout << "6. Afisare angajat\n";
-            cout << "7. Salvare date angajat\n";
-            cout << "8. Afisare date angajati\n";
-            cout << "9. Cauta angajat\n";
-            cout << "10. Modifica date angajat\n";
-            cout << "11. Sterge date angajat\n";
+            cout << "Cont selectat: " << (emailSelectat.empty() ? "N/A (poti selecta un cont accesand optiunea \"3. Cauta/Selecteaza cont\")" : contSelectat) << "\n";
             cout << '\n';
-            cout << " ADMINISTRATOR\n";
-            cout << "12. Schimba parola\n";
-            cout << '\n';
-            cout << "13. Meniu clienti\n";
-            cout << "14. Meniu angajati\n";
+            cout << "8. Meniu clienti\n";
+            cout << "9. Meniu angajati\n";
             cout << "0. Inchidere program\n";
             cout << "\nIntroduceti o optiune... ";
             cin >> optiune;
             cout << endl;
             switch (toupper(optiune)) {
                 case 1: {
-                    inchiriere = Inchiriere();
-                    cin >> inchiriere;
+                    cin >> cont;
+                    cont.setTipCont(cont.selecteazaTipCont());
+                    adminConturi.AdaugaCont(cont);
+                    cout << "Cont salvat";
+                    cont = Cont();
 
                     cin.ignore();
                     cin.get();
@@ -870,7 +1045,8 @@ int main()
                 }
 
                 case 2: {
-                    cout << inchiriere;
+                    conturi = adminConturi.GetConturi(nrConturi);
+                    afisareTabelConturi(conturi, nrConturi);
 
                     cin.ignore();
                     cin.get();
@@ -878,18 +1054,46 @@ int main()
                 }
 
                 case 3: {
-                    inchirieri = adminInchirieri.GetInchirieri(nrInchirieri);
-                    afisareTabelInchirieri(inchirieri, nrInchirieri);
-
-                    cin.ignore();
-                    cin.get();
+                    emailSelectat = meniuCautareCont(conturi);
                     break;
                 }
 
                 case 4: {
-                    update_nrInchirieri_nextIdInchiriere(nrInchirieri, nextIdInchiriere, adminInchirieri);
-                    inchiriere.setIdInchiriere(nextIdInchiriere);
-                    adminInchirieri.AdaugaInchiriere(inchiriere);
+                    string raspuns;
+
+                    if (emailSelectat.empty()) {
+                        cout << "Nu ati selectat niciun cont. Va rugam selectati un cont valid accesand optiunea \"3. Cauta/Selecteaza cont\"." << endl;
+                    } else {
+                        bool confirmare = false;
+                        while (!confirmare) {
+                            cout << "Cont selectat: " << autovehiculSelectat << "\n";
+                            cout << "Doriti sa modificati acest cont? (Da/Nu): ";
+                            cin >> raspuns;
+                            cout << "\n";
+
+                            if (raspuns == "Da" || raspuns == "da" || raspuns == "DA" || raspuns == "dA" || raspuns == "d" || raspuns == "D") {
+                                Cont contModificat = Cont(adminConturi.CautaContDupaEmail(emailSelectat));
+                                contModificat.citireContExistent();
+
+                                bool rezultat = adminConturi.ModificaContDinFisier(emailSelectat, contModificat);
+                                if (rezultat) {
+                                    cout << "Contul a fost modificat cu succes." << endl;
+                                } else {
+                                    cout << "Nu s-a putut gasi contul pentru modificare." << endl;
+                                }
+                                confirmare = true;
+                            } else if (raspuns == "Nu" || raspuns == "nu" || raspuns == "NU" || raspuns == "nU" || raspuns == "n" || raspuns == "N") {
+                                cout << "Modificarea contului a fost anulata." << endl;
+                                confirmare = true;
+                            } else {
+                                cout << "Raspuns invalid. Va rugam introduceti 'Da' sau 'Nu'." << endl;
+                                cin.ignore();
+                                cin.get();
+                                for(int i = 1; i <= 5; i++)
+                                    cout << "\33[2K\r\033[A\r";
+                            }
+                        }
+                    }
 
                     cin.ignore();
                     cin.get();
@@ -897,31 +1101,39 @@ int main()
                 }
 
                 case 5: {
-                    meniuCautareInchiriere(inchirieri);
+                    string raspuns;
 
-                    break;
-                }
-
-                case 6: {
-                    int idStergere;
-                    cout << "Introduceti ID-ul inchirierii de sters: ";
-                    cin >> idStergere;
-
-                    bool rezultat = adminInchirieri.StergeInchiriereDupaID(idStergere);
-                    if (rezultat) {
-                        cout << "Inchirierea a fost stearsa cu succes." << endl;
+                    if (emailSelectat.empty()) {
+                        cout << "Nu ati selectat niciun cont. Va rugam selectati un cont valid accesand optiunea \"3. Cauta/Selecteaza cont\"." << endl;
                     } else {
-                        cout << "Nu s-a putut gasi inchirierea pentru stergere." << endl;
+                        bool confirmare = false;
+                        while (!confirmare) {
+                            cout << "Cont selectat: " << autovehiculSelectat << "\n";
+                            cout << "Doriti sa stergeti aceast cont? (Da/Nu): ";
+                            cin >> raspuns;
+                            cout << "\n";
+
+                            if (raspuns == "Da" || raspuns == "da" || raspuns == "DA" || raspuns == "dA" || raspuns == "d" || raspuns == "D") {
+                                bool rezultat = adminConturi.StergeContDupaEmail(emailSelectat);
+                                if (rezultat) {
+                                    emailSelectat = "";
+                                    cout << "Contul a fost sters cu succes." << endl;
+                                } else {
+                                    cout << "Nu s-a putut gasi contul pentru stergere." << endl;
+                                }
+                                confirmare = true;
+                            } else if (raspuns == "Nu" || raspuns == "nu" || raspuns == "NU" || raspuns == "nU" || raspuns == "n" || raspuns == "N") {
+                                cout << "Stergerea contului a fost anulata." << endl;
+                                confirmare = true;
+                            } else {
+                                cout << "Raspuns invalid. Va rugam introduceti 'Da' sau 'Nu'." << endl;
+                                cin.ignore();
+                                cin.get();
+                                for(int i = 1; i <= 5; i++)
+                                    cout << "\33[2K\r\033[A\r";
+                            }
+                        }
                     }
-
-                    cin.ignore();
-                    cin.get();
-                    break;
-                }
-
-                case 7: {
-                    autovehicul_meniu1 = Autovehicul();
-                    cin >> autovehicul_meniu1;
 
                     cin.ignore();
                     cin.get();
@@ -929,56 +1141,6 @@ int main()
                 }
 
                 case 8: {
-                    cout << autovehicul_meniu1;
-
-                    cin.ignore();
-                    cin.get();
-                    break;
-                }
-
-                case 9: {
-                    autovehicule = adminAutovehicule.GetAutovehicule(nrAutovehicule);
-                    afisareTabelAutovehicule(autovehicule, nrAutovehicule);
-
-                    cin.ignore();
-                    cin.get();
-                    break;
-                }
-
-                case 10: {
-                    update_nrAutovehicule_nextIdAutovehicul(nrAutovehicule, nextIdAutovehicul, adminAutovehicule);
-                    autovehicul_meniu1.setID(nextIdAutovehicul);
-                    adminAutovehicule.AdaugaAutovehicul(autovehicul_meniu1);
-
-                    cin.ignore();
-                    cin.get();
-                    break;
-                }
-
-                case 11: {
-                    meniuCautareAutovehicul(autovehicule);
-
-                    break;
-                }
-
-                case 12: {
-                    int idStergere;
-                    cout << "Introduceti ID-ul autovehiculului de sters: ";
-                    cin >> idStergere;
-
-                    bool rezultat = adminAutovehicule.StergeAutovehiculDupaID(idStergere);
-                    if (rezultat) {
-                        cout << "Autovehiculul a fost sters cu succes." << endl;
-                    } else {
-                        cout << "Nu s-a putut gasi autovehiculul pentru stergere." << endl;
-                    }
-
-                    cin.ignore();
-                    cin.get();
-                    break;
-                }
-
-                case 13: {
                     mod = 1;
 
                     cin.ignore();
@@ -986,8 +1148,17 @@ int main()
                     break;
                 }
 
-                case 14: {
-                    mod = 2;
+                case 9: {
+                    string parola;
+                    cout << "Introduce parola: ";
+                    cin >> parola;
+
+                    if (parola == "admin") {
+                        mod = 3;
+                        cout << "Parola corecta!" << endl;
+                    }
+                    else
+                        cout << "Parola gresita!";
 
                     cin.ignore();
                     cin.get();

@@ -295,7 +295,7 @@ istream& operator>>(istream& is, Autovehicul& autovehicul)
     return is;
 }
 
-ostream& operator<<(ostream& os, const Autovehicul& autovehicul)
+ostream& operator<<(ostream& os, Autovehicul& autovehicul)
 {
     os << autovehicul.Info();
     return os;

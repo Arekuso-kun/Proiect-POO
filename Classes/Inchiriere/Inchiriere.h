@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include "../Persoana/Client/Client.h"
+#include "../Client/Client.h"
 #include "../Utility.h"
 
 using namespace std;

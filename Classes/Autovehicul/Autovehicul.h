@@ -83,7 +83,7 @@ public:
     string Info() const;
     string ConversieLaSir_PentruFisier() const;
     friend istream& operator>>(istream& is, Autovehicul& autovehicul);
-    friend ostream& operator<<(ostream& os, const Autovehicul& autovehicul);
+    friend ostream& operator<<(ostream& os, Autovehicul& autovehicul);
 
     void citireAutovehiculExistent();
 
