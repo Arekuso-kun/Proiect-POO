@@ -1,9 +1,1 @@
-0;13;123;12;3123;888;12312;312;20;20;
-1;90;wowowowoowowowo;prenumevechi o;a;a;asd;asd;asd;asd;
-2;44;testmodif;gtrgdfagasdfasdfads;adresa;509378543578934;adreasv2;07;22/02/2022;nuj;
-3;523;523;52;53;235;5;32;20;20;
-4;15;Popescu;Raul;ceva@gmail.com;20;Larga 150 CC;07448123609;20;20;
-5;-1;NECUNOSCUT;NECUNOSCUT;NECUNOSCUT;-1;NECUNOSCUT;NECUNOSCUT;20;20;
-6;2;Nume;Prenume;meil.45@gmail.com;19;adresagrmeige;07497376384;20/10/2023;24/20/2023;
-7;2;2;2;2;2;2;2;2;2;
-8;2;test;test;alexo@gmail.com;05937684842;dadasdas;07840986;22 01 2002;2005;
+9;0;potato;portita;potato@gmail.com;13151513;potato street;0747148141;12/06/2023;15/06/2023;

@@ -1,5 +1,3 @@
-dasda;das;Client;
-test@gmial.com;XgVY\g;Angajat;
-test2@gmail.com;g4uwg8hwnueuhidfsnv;Angajat;
-alex@gmail.com;XgVY\g;Client;
-alexo@gmail.com;XgVY\g“˜˜˜;Client;
+test123@gmail.com;parolaaa;Angajat;
+test2@gmail.com;parola5000;Administrator;
+potato@gmail.com;potato;Client;

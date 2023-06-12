@@ -7,6 +7,9 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <regex>
+#include <ctime>
+#include <chrono>
 
 using namespace std;
 
@@ -34,33 +37,48 @@ public:
         return result;
     }
 
-    static string encryptString(string input) {
-        string encryptedString;
-
-        for (char ch : input) {
-            ch = 126 - (ch - 33) + 41;
-
-//            ch = 167 - (ch - 33);
-
-            encryptedString += ch;
+    static bool validareDoarCifre(string str) {
+        for (char ch : str) {
+            if (!isdigit(ch)) {
+                return false;
+            }
         }
-
-        return encryptedString;
+        return true;
     }
 
-    static string decryptString(string input) {
-        string decryptedString;
+    static bool validareEmail(string email) {
+        regex pattern(R"(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b)");
 
-        for (char ch : input) {
-            ch -= 41;
-            ch = 126 - (ch - 33);
+        return regex_match(email, pattern);
+    }
 
-//            ch = 126 - (ch - 74);
-
-            decryptedString += ch;
+    static bool validareDataCalendaristica(string data) {
+        if (data.length() != 10) {
+            return false;
         }
 
-        return decryptedString;
+        if (data[2] != '/' || data[5] != '/') {
+            return false;
+        }
+
+        string ziuaStr = data.substr(0, 2);
+        string lunaStr = data.substr(3, 2);
+        string anulStr = data.substr(6, 4);
+
+        int ziua = 0, luna = 0, anul = 0;
+
+        ziua = stoi(ziuaStr);
+        luna = stoi(lunaStr);
+        anul = stoi(anulStr);
+
+        if (ziua < 1 || ziua > 31 || luna < 1 || luna > 12 || anul < 0) {
+            return false;
+        }
+
+        bool februarie = (luna == 2);
+        bool numarZileCorect = (ziua <= 28 + februarie + (luna + luna / 8) % 2);
+
+        return numarZileCorect;
     }
 };
 

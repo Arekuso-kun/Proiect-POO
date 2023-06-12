@@ -36,7 +36,7 @@ Inchiriere::Inchiriere(string linieFisier) {
 Inchiriere::~Inchiriere() {}
 
 string Inchiriere::Info() const {
-    string info = "ID inchiriere: " + to_string(idInchiriere) + "\n";
+    string info = "ID inchiriere: " + (idInchiriere == -1 ? "N/A" : to_string(idInchiriere)) + "\n";
     info += "ID autovehicul: " + to_string(idAutovehicul) + "\n";
     info += "Nume: " + nume + "\n";
     info += "Prenume: " + prenume + "\n";
@@ -64,30 +64,51 @@ string Inchiriere::ConversieLaSir_PentruFisier() {
 }
 
 istream &operator>>(istream &is, Inchiriere &inchiriere) {
+    string input;
     cout << "Introduceti numele clientului: ";
-    cin.ignore();
+    is.ignore();
     getline(is, inchiriere.nume);
 
     cout << "Introduceti prenumele clientului: ";
     getline(is, inchiriere.prenume);
 
-    cout << "Introduceti adresa de email a clientului: ";
-    getline(is, inchiriere.email);
+//    cout << "Introduceti adresa de email a clientului: ";
+//    getline(is, inchiriere.email);
 
     cout << "Introduceti CNP clientului: ";
-    getline(cin, inchiriere.cnp);
+    getline(is, input);
+    while(!Utility::validareDoarCifre(input)) {
+        cout << "CNP-ul trebuie sa contina doar cifre, reintroduceti CNP-ul...";
+        getline(is, input);
+    }
+    inchiriere.cnp = input;
 
     cout << "Introduceti adresa clientului: ";
     getline(is, inchiriere.adresa);
 
     cout << "Introduceti numarul de telefon al clientului: ";
-    getline(is, inchiriere.telefon);
+    getline(is, input);
+    while(!Utility::validareDoarCifre(input)) {
+        cout << "Numarul de telefon trebuie sa contina doar cifre, reintroduceti numarul de telefon...";
+        getline(is, input);
+    }
+    inchiriere.telefon = input;
 
-    cout << "Introduceti data inchirierii: ";
-    getline(is, inchiriere.dataInchiriere);
+    cout << "Introduceti data inchirierii (ZZ/LL/AAAA): ";
+    getline(is, input);
+    while(!Utility::validareDataCalendaristica(input)) {
+        cout << "Format incorect, reintroduceti data...";
+        getline(is, input);
+    }
+    inchiriere.dataInchiriere = input;
 
-    cout << "Introduceti data returnarii: ";
-    getline(is, inchiriere.dataReturnare);
+    cout << "Introduceti data returnarii (ZZ/LL/AAAA): ";
+    getline(is, input);
+    while(!Utility::validareDataCalendaristica(input)) {
+        cout << "Format incorect, reintroduceti data...";
+        getline(is, input);
+    }
+    inchiriere.dataReturnare = input;
 
     return is;
 }
@@ -116,12 +137,20 @@ void Inchiriere::citireInchiriereExistenta() {
 
     cout << "Introduceti adresa de email a clientului (default: " << email << "): ";
     getline(cin, input);
+    while(!Utility::validareEmail(input) && !input.empty()) {
+        cout << "Email invalid, reintroduceti email-ul...";
+        getline(cin, input);
+    }
     if (!input.empty()) {
         email = input;
     }
 
     cout << "Introduceti CNP clientului (default: " << cnp << "): ";
     getline(cin, input);
+    while(!Utility::validareDoarCifre(input) && !input.empty()) {
+        cout << "CNP-ul trebuie sa contina doar cifre, reintroduceti CNP-ul...";
+        getline(cin, input);
+    }
     if (!input.empty()) {
         cnp = input;
     }
@@ -134,18 +163,30 @@ void Inchiriere::citireInchiriereExistenta() {
 
     cout << "Introduceti numarul de telefon al clientului (default: " << telefon << "): ";
     getline(cin, input);
+    while(!Utility::validareDoarCifre(input) && !input.empty()) {
+        cout << "Numarul de telefon trebuie sa contina doar cifre, reintroduceti numarul de telefon...";
+        getline(cin, input);
+    }
     if (!input.empty()) {
         telefon = input;
     }
 
     cout << "Introduceti data inchirierii (default: " << dataInchiriere << "): ";
     getline(cin, input);
+    while(!Utility::validareDataCalendaristica(input) && !input.empty()) {
+        cout << "Format incorect, reintroduceti data...";
+        getline(cin, input);
+    }
     if (!input.empty()) {
         dataInchiriere = input;
     }
 
     cout << "Introduceti data returnarii (default: " << dataReturnare << "): ";
     getline(cin, input);
+    while(!Utility::validareDataCalendaristica(input) && !input.empty()) {
+        cout << "Format incorect, reintroduceti data...";
+        getline(cin, input);
+    }
     if (!input.empty()) {
         dataReturnare = input;
     }

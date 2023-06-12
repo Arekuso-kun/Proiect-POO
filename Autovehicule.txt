@@ -1,7 +1,4 @@
-0;2;2;2;0;1;0;0;0;0;2;0;2;
-2;Audi;RS7;Coupe;69;1;1800;4;4;100;Manuala;1;Benzina;
-3;Audi;4 B5;edan;30;1;1800;4;4;100;auto;1;benzina;
-4;Audi;A4;Sedan;20;1;1800;4;4;100;automata;0;motorina;
-5;Ford;Focus 2004;Compact;90;1;1800;5;4;301;Manuala;1;Electric;
-6;NECUNOSCUT;NECUNOSCUT;NECUNOSCUT;-1;0;-1;-1;-1;-1;NECUNOSCUT;0;NECUNOSCUT;
-7;NECUNOSCUT;NECUNOSCUT;NECUNOSCUT;-1;0;-1;-1;-1;-1;NECUNOSCUT;0;NECUNOSCUT;
+0;Audi;RS7;Coupe;30;1;1800;5;5;500;Manuala;1;Benzina;
+1;Honda;Civic;Compact;20;1;1800;4;5;200;Manuala;1;Benzina;
+2;Volkswagen;Passat;Break;40;1;2000;4;5;200;Automata;0;Motorina;
+3;bemveu;x8;Break;100;1;3000;5;5;600;Manuala;1;Benzina;

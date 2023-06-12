@@ -23,19 +23,24 @@ Cont::~Cont() {
 
 string Cont::ConversieLaSir_PentruFisier() const {
     string output = email + SEPARATOR_PRINCIPAL_FISIER +
-                    Utility::encryptString(parola) + SEPARATOR_PRINCIPAL_FISIER +
+                    parola + SEPARATOR_PRINCIPAL_FISIER +
                     tip_cont + SEPARATOR_PRINCIPAL_FISIER;
 
     return output;
 }
 
 istream& operator>>(istream& is, Cont& cont) {
+    string input;
     cout << "Introduceti email-ul: ";
-    cin.ignore();
-    getline(is, cont.email);
+    cin >> input;
+    while(!Utility::validareEmail(input)) {
+        cout << "Email invalid, reintroduceti email-ul...";
+        cin >> input;
+    }
+    cont.email = input;
 
     cout << "Introduceti parola: ";
-    getline(is, cont.parola);
+    cin >> cont.parola;
 
     return is;
 }
@@ -46,6 +51,10 @@ void Cont::citireContExistent() {
     cout << "Introduceti email-ul (default: " << email << "): ";
     cin.ignore();
     getline(cin, input);
+    while(!Utility::validareEmail(input) && !input.empty()) {
+        cout << "Email invalid, reintroduceti email-ul...";
+        getline(cin, input);
+    }
     if (!input.empty()) {
         email = input;
     }
@@ -56,7 +65,7 @@ void Cont::citireContExistent() {
         parola = input;
     }
 
-    cout << "(Tip cont actual: " << tip_cont << ")\n";
+    cout << endl << "(Tip cont actual: " << tip_cont << ")\n";
     tip_cont = Cont::selecteazaTipCont();
 
 }

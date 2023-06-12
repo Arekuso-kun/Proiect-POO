@@ -19,7 +19,7 @@ private:
     int cost_zi;
     bool disponibil;
     int capacitate_motor;
-    int nr_pasageri;
+    int nr_locuri;
     int nr_portiere;
     int volum_portbagaj;
     string transmisie;
@@ -33,7 +33,7 @@ private:
     int COST_ZI = 4;
     int DISPONIBIL = 5;
     int CAPACITATE_MOTOR = 6;
-    int NR_PASAGERI = 7;
+    int NR_LOCURI = 7;
     int NR_PORTIERE = 8;
     int VOLUM_PORTBAGAJ = 9;
     int TRANSMISIE = 10;
@@ -44,7 +44,7 @@ private:
 
 public:
     Autovehicul(int id = -1, string marca = "NECUNOSCUT", string model = "NECUNOSCUT", string categorie = "NECUNOSCUT", int cost_zi = -1,
-                bool disponibil = false, int capacitate_motor = -1, int nr_pasageri = -1, int nr_portiere = -1,
+                bool disponibil = false, int capacitate_motor = -1, int nr_locuri = -1, int nr_portiere = -1,
                 int volum_portbagaj = -1, string transmisie = "NECUNOSCUT", bool aer_conditionat = false, string tip_combustibil = "NECUNOSCUT");
     Autovehicul(string linieFisier);
     ~Autovehicul();
@@ -56,7 +56,7 @@ public:
     int getCostZi() const { return cost_zi; }
     bool isDisponibil() const { return disponibil; }
     int getCapacitateMotor() const { return capacitate_motor; }
-    int getNrPasageri() const  { return nr_pasageri; }
+    int getNrLocuri() const  { return nr_locuri; }
     int getNrPortiere() const  { return nr_portiere; }
     int getVolumPortbagaj() const  { return volum_portbagaj; }
     string getTransmisie() const  { return transmisie; }
@@ -70,15 +70,12 @@ public:
     void setCostZi(int newCostZi) { cost_zi = newCostZi; }
     void setDisponibil(bool newDisponibil) { disponibil = newDisponibil; }
     void setCapacitateMotor(int newCapacitateMotor) { capacitate_motor = newCapacitateMotor; }
-    void setNrPasageri(int newNrPasageri) { nr_pasageri = newNrPasageri; }
+    void setNrLocuri(int newNrLocuri) { nr_locuri = newNrLocuri; }
     void setNrPortiere(int newNrPortiere) { nr_portiere = newNrPortiere; }
     void setVolumPortbagaj(int newVolumPortbagaj) { volum_portbagaj = newVolumPortbagaj; }
     void setTransmisie(string newTransmisie) { transmisie = newTransmisie; }
     void setAerConditionat(bool newAerConditionat) { aer_conditionat = newAerConditionat; }
     void setTipCombustibil(string newTipCombustibil) { tip_combustibil = newTipCombustibil; }
-
-    void inchiriazaMasina();
-    void returnCar();
 
     string Info() const;
     string ConversieLaSir_PentruFisier() const;

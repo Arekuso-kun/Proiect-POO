@@ -6,7 +6,7 @@
 using namespace std;
 
 Autovehicul::Autovehicul(int id, string marca, string model, string categorie, int cost_zi, bool disponibil,
-               int capacitate_motor, int nr_pasageri, int nr_portiere, int volum_portbagaj, string transmisie,
+               int capacitate_motor, int nr_locuri, int nr_portiere, int volum_portbagaj, string transmisie,
                bool aer_conditionat, string tip_combustibil) {
     this->id = id;
     this->marca = marca;
@@ -15,7 +15,7 @@ Autovehicul::Autovehicul(int id, string marca, string model, string categorie, i
     this->cost_zi = cost_zi;
     this->disponibil = disponibil;
     this->capacitate_motor = capacitate_motor;
-    this->nr_pasageri = nr_pasageri;
+    this->nr_locuri = nr_locuri;
     this->nr_portiere = nr_portiere;
     this->volum_portbagaj = volum_portbagaj;
     this->transmisie = transmisie;
@@ -36,7 +36,7 @@ Autovehicul::Autovehicul(string linieFisier) {
     cost_zi = stoi(dateFisier[COST_ZI]);
     disponibil = stoi(dateFisier[DISPONIBIL]);
     capacitate_motor = stoi(dateFisier[CAPACITATE_MOTOR]);
-    nr_pasageri = stoi(dateFisier[NR_PASAGERI]);
+    nr_locuri = stoi(dateFisier[NR_LOCURI]);
     nr_portiere = stoi(dateFisier[NR_PORTIERE]);
     volum_portbagaj = stoi(dateFisier[VOLUM_PORTBAGAJ]);
     transmisie = dateFisier[TRANSMISIE];
@@ -45,24 +45,6 @@ Autovehicul::Autovehicul(string linieFisier) {
 }
 
 Autovehicul::~Autovehicul() {}
-
-void Autovehicul::inchiriazaMasina() {
-    if (disponibil) {
-        disponibil = false;
-        cout << "AutovehiculAutovehicul inchiriat." << endl;
-    } else {
-        cout << "Autovehiculul nu este disponibil pentru inchiriat." << endl;
-    }
-}
-
-void Autovehicul::returnCar() {
-    if (!disponibil) {
-        disponibil = true;
-        cout << "Autovehicul returnat." << endl;
-    } else {
-        cout << "Autovehicul este deja disponibil." << endl;
-    }
-}
 
 string Autovehicul::Info() const {
     string info = "ID: " + (id == -1 ? "N/A" : to_string(id)) + "\n";
@@ -73,7 +55,7 @@ string Autovehicul::Info() const {
     string disponibil_str = (disponibil ? "Da" : "Nu");
     info += "Disponibil: " + disponibil_str + "\n";
     info += "Capacitate motor: " + to_string(capacitate_motor) + "\n";
-    info += "Numar pasageri: " + to_string(nr_pasageri) + "\n";
+    info += "Numar locuri: " + to_string(nr_locuri) + "\n";
     info += "Numar portiere: " + to_string(nr_portiere) + "\n";
     info += "Volum portbagaj: " + to_string(volum_portbagaj) + "\n";
     info += "Transmisie: " + transmisie + "\n";
@@ -92,7 +74,7 @@ string Autovehicul::ConversieLaSir_PentruFisier() const {
                     to_string(cost_zi) + SEPARATOR_PRINCIPAL_FISIER +
                     (disponibil ? "1" : "0") + SEPARATOR_PRINCIPAL_FISIER +
                     to_string(capacitate_motor) + SEPARATOR_PRINCIPAL_FISIER +
-                    to_string(nr_pasageri) + SEPARATOR_PRINCIPAL_FISIER +
+                    to_string(nr_locuri) + SEPARATOR_PRINCIPAL_FISIER +
                     to_string(nr_portiere) + SEPARATOR_PRINCIPAL_FISIER +
                     to_string(volum_portbagaj) + SEPARATOR_PRINCIPAL_FISIER +
                     transmisie + SEPARATOR_PRINCIPAL_FISIER +
@@ -260,36 +242,67 @@ string Autovehicul::selecteazaCombustibilAutovehicul() {
 
 istream& operator>>(istream& is, Autovehicul& autovehicul)
 {
+    string input;
     cout << "Introduceti marca autovehiculului: ";
-    cin.ignore();
+    is.ignore();
     getline(is, autovehicul.marca);
 
     cout << "Introduceti modelul autovehiculului: ";
     getline(is, autovehicul.model);
 
+    cout << endl;
     autovehicul.categorie = Autovehicul::selecteazaCategorieAutovehicul();
 
-    cout << "Introduceti costul pe zi al autovehiculului (RON): ";
-    is >> autovehicul.cost_zi;
+    cout << endl << "Introduceti costul pe zi al autovehiculului (RON): ";
+    is >> input;
+    while(!Utility::validareDoarCifre(input)) {
+        cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
+        is >> input;
+    }
+    autovehicul.cost_zi = stoi(input);
 
+    cout << endl;
     autovehicul.disponibil = Autovehicul::selecteazaDisponibilitateAutovehicul();
 
-    cout << "Introduceti capacitatea motorului autovehiculului (cm^3): ";
-    is >> autovehicul.capacitate_motor;
+    cout << endl << "Introduceti capacitatea motorului autovehiculului (cm^3): ";
+    is >> input;
+    while(!Utility::validareDoarCifre(input)) {
+        cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
+        is >> input;
+    }
+    autovehicul.capacitate_motor = stoi(input);
 
-    cout << "Introduceti numarul de pasageri al autovehiculului: ";
-    is >> autovehicul.nr_pasageri;
+    cout << "Introduceti numarul de locuri al autovehiculului: ";
+    is >> input;
+    while(!Utility::validareDoarCifre(input)) {
+        cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
+        is >> input;
+    }
+    autovehicul.nr_locuri = stoi(input);
 
     cout << "Introduceti numarul de portiere al autovehiculului: ";
-    is >> autovehicul.nr_portiere;
+    is >> input;
+    while(!Utility::validareDoarCifre(input)) {
+        cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
+        is >> input;
+    }
+    autovehicul.nr_portiere = stoi(input);
 
     cout << "Introduceti volumul portbagajului autovehiculului (L): ";
-    is >> autovehicul.volum_portbagaj;
+    is >> input;
+    while(!Utility::validareDoarCifre(input)) {
+        cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
+        is >> input;
+    }
+    autovehicul.volum_portbagaj = stoi(input);
 
+    cout << endl;
     autovehicul.transmisie = Autovehicul::selecteazaTransmisieAutovehicul();
 
+    cout << endl;
     autovehicul.aer_conditionat = Autovehicul::selecteazaAerConditionatAutovehicul();
 
+    cout << endl;
     autovehicul.tip_combustibil = Autovehicul::selecteazaCombustibilAutovehicul();
 
     return is;
@@ -317,50 +330,70 @@ void Autovehicul::citireAutovehiculExistent() {
         model = input;
     }
 
-    cout << "(Se va inlocui urmatoarea categorie: " << categorie << ")\n";
+    cout << endl << "(Se va inlocui urmatoarea categorie: " << categorie << ")\n";
     categorie = Autovehicul::selecteazaCategorieAutovehicul();
 
-    cout << "Introduceti costul pe zi al autovehiculului (RON) (default: " << to_string(cost_zi) << "): ";
+    cout << endl << "Introduceti costul pe zi al autovehiculului (RON) (default: " << to_string(cost_zi) << "): ";
     cin.ignore();
     getline(cin, input);
+    while(!Utility::validareDoarCifre(input) && !input.empty()) {
+        cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
+        getline(cin, input);
+    }
     if (!input.empty()) {
         cost_zi = stoi(input);
     }
 
-    cout << "(Anterior autovehiculul" << (!disponibil ? " nu" : "" ) << " era disponibil)\n";
+    cout << endl << "(Anterior autovehiculul" << (!disponibil ? " nu" : "" ) << " era disponibil)\n";
     disponibil = Autovehicul::selecteazaDisponibilitateAutovehicul();
 
-    cout << "Introduceti capacitatea motorului autovehiculului (cm^3) (default: " << to_string(capacitate_motor) << "): ";
+    cout << endl << "Introduceti capacitatea motorului autovehiculului (cm^3) (default: " << to_string(capacitate_motor) << "): ";
     cin.ignore();
     getline(cin, input);
+    while(!Utility::validareDoarCifre(input) && !input.empty()) {
+        cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
+        getline(cin, input);
+    }
     if (!input.empty()) {
         capacitate_motor = stoi(input);
     }
 
-    cout << "Introduceti numarul de pasageri al autovehiculului (default: " << to_string(nr_pasageri) << "): ";
+    cout << "Introduceti numarul de locuri al autovehiculului (default: " << to_string(nr_locuri) << "): ";
     getline(cin, input);
+    while(!Utility::validareDoarCifre(input) && !input.empty()) {
+        cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
+        getline(cin, input);
+    }
     if (!input.empty()) {
-        nr_pasageri = stoi(input);
+        nr_locuri = stoi(input);
     }
 
     cout << "Introduceti numarul de portiere al autovehiculului (default: " << to_string(nr_portiere) << "): ";
     getline(cin, input);
+    while(!Utility::validareDoarCifre(input) && !input.empty()) {
+        cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
+        getline(cin, input);
+    }
     if (!input.empty()) {
         nr_portiere = stoi(input);
     }
 
     cout << "Introduceti volumul portbagajului autovehiculului (L) (default: " << to_string(volum_portbagaj) << "): ";
     getline(cin, input);
+    while(!Utility::validareDoarCifre(input) && !input.empty()) {
+        cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
+        getline(cin, input);
+    }
     if (!input.empty()) {
         volum_portbagaj = stoi(input);
     }
 
-    cout << "(Se va inlocui urmatoarea transmisie: " << transmisie << ")\n";
+    cout << endl << "(Se va inlocui urmatoarea transmisie: " << transmisie << ")\n";
     transmisie = Autovehicul::selecteazaTransmisieAutovehicul();
 
-    cout << "(Anterior autovehiculul" << (!aer_conditionat ? " nu" : "" ) << " avea aer conditionat)\n";
+    cout << endl << "(Anterior autovehiculul" << (!aer_conditionat ? " nu" : "" ) << " avea aer conditionat)\n";
     aer_conditionat = Autovehicul::selecteazaAerConditionatAutovehicul();
 
-    cout << "(Se va inlocui urmatoarul tip de combustibil: " << tip_combustibil << ")\n";
+    cout << endl << "(Se va inlocui urmatoarul tip de combustibil: " << tip_combustibil << ")\n";
     tip_combustibil = Autovehicul::selecteazaCombustibilAutovehicul();
 }
