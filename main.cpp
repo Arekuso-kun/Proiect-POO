@@ -582,19 +582,19 @@ int main()
                         cout << endl;
                         cont_verificare = adminConturi.CautaContDupaEmail(cont_autentificare.getEmail());
                         if(cont_verificare.getEmail() != cont_autentificare.getEmail()) {
-                            cout << "Eroare! Nu s-a gasit niciun cont cu email-ul introdus.";
+                            cout << endl << "Eroare! Nu s-a gasit niciun cont cu email-ul introdus.";
                         }
                         else if(cont_verificare.getParola() != cont_autentificare.getParola()) {
-                            cout << "Eroare! Parola gresita.";
+                            cout << endl << "Eroare! Parola gresita.";
                         }
                         else {
                             autentificat = true;
-                            cout << "Autentificare cu succes.";
+                            cout << endl << "Autentificare cu succes.";
                         }
                     }
                     else {
                         autentificat = false;
-                        cout << "Log out cu succes.";
+                        cout << endl << "Log out cu succes.";
                     }
 
                     cin.ignore();
@@ -605,7 +605,7 @@ int main()
                     cin >> cont;
                     cont.setTipCont("Client");
                     adminConturi.AdaugaCont(cont);
-                    cout << "Inregistrare cu succes.";
+                    cout << endl << "Inregistrare cu succes.";
 
                     cin.ignore();
                     cin.get();

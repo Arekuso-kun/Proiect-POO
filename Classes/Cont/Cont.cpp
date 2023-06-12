@@ -40,7 +40,9 @@ istream& operator>>(istream& is, Cont& cont) {
     cont.email = input;
 
     cout << "Introduceti parola: ";
+    system("stty -echo");
     cin >> cont.parola;
+    system("stty echo");
 
     return is;
 }
@@ -60,10 +62,12 @@ void Cont::citireContExistent() {
     }
 
     cout << "Introduceti parola ('ENTER' pentru a nu o modifica): ";
+    system("stty -echo");
     getline(cin, input);
     if (!input.empty()) {
         parola = input;
     }
+    system("stty echo");
 
     cout << endl << "(Tip cont actual: " << tip_cont << ")\n";
     tip_cont = Cont::selecteazaTipCont();
