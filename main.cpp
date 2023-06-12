@@ -704,12 +704,9 @@ int main()
                             cin.get();
                         } else {
                             mod = 2;
-                            cout << "Succes.";
                         }
                     }
 
-                    cin.ignore();
-                    cin.get();
                     break;
                 }
 
@@ -763,22 +760,22 @@ int main()
                                                  : inchiriereSelectata) << "\n";
             cout << '\n';
             cout << " AUTOVEHICULE\n";
-            cout << "6. " << (!infoAutovehicul ? "Introduce" : "Modifica")
+            cout << "5. " << (!infoAutovehicul ? "Introduce" : "Modifica")
                  << " informatii autovehicul\n"; // validare date
-            cout << "7. Afisare informatii autovehicul\n";
-            cout << "8. Salvare informatii autovehicul\n";
-            cout << "9. Afisare autovehicule\n";
-            cout << "10. Cauta/Selecteaza autovehicul\n";
-            cout << "11. Modifica informatii autovehicul\n";
-            cout << "12. Sterge autovehicul\n";
-            cout << "13. Seteaza autovehicul ca returnat\n";
+            cout << "6. Afisare informatii autovehicul\n";
+            cout << "7. Salvare informatii autovehicul\n";
+            cout << "8. Afisare autovehicule\n";
+            cout << "9. Cauta/Selecteaza autovehicul\n";
+            cout << "10. Modifica informatii autovehicul\n";
+            cout << "11. Sterge autovehicul\n";
+            cout << "12. Seteaza autovehicul ca returnat\n";
             cout << '\n';
             cout << "Autovehicul selectat: " << (idAutovehiculSelectat_meniu2 == -1
                                                  ? "N/A (poti selecta un autovehicul accesand optiunea \"10. Cauta/Selecteaza autovehicul\")"
                                                  : autovehiculSelectat) << "\n";
             cout << '\n';
-            cout << "14. Meniu clienti\n";
-            cout << "15. Meniu admin\n";
+            cout << "13. Meniu clienti\n";
+            cout << "14. Meniu admin\n";
             cout << "0. Inchidere program\n";
             cout << "\nIntroduceti o optiune... ";
             cin >> optiune;
@@ -890,7 +887,7 @@ int main()
                     break;
                 }
 
-                case 6: {
+                case 5: {
                     if (!infoAutovehicul) {
                         cin >> autovehicul_meniu2;
                         infoAutovehicul = true;
@@ -903,7 +900,7 @@ int main()
                     break;
                 }
 
-                case 7: {
+                case 6: {
                     if (infoAutovehicul)
                         cout << autovehicul_meniu2;
                     else
@@ -915,7 +912,7 @@ int main()
                     break;
                 }
 
-                case 8: {
+                case 7: {
                     if (infoAutovehicul) {
                         update_nrAutovehicule_nextIdAutovehicul(nrAutovehicule, nextIdAutovehicul, adminAutovehicule);
                         autovehicul_meniu2.setID(nextIdAutovehicul);
@@ -932,7 +929,7 @@ int main()
                     break;
                 }
 
-                case 9: {
+                case 8: {
                     autovehicule = adminAutovehicule.GetAutovehicule(nrAutovehicule);
                     afisareTabelAutovehicule(autovehicule, nrAutovehicule);
 
@@ -941,12 +938,12 @@ int main()
                     break;
                 }
 
-                case 10: {
+                case 9: {
                     idAutovehiculSelectat_meniu2 = meniuCautareAutovehicul(autovehicule);
                     break;
                 }
 
-                case 11: {
+                case 10: {
                     string raspuns;
 
                     if (idAutovehiculSelectat_meniu2 == -1) {
@@ -992,7 +989,7 @@ int main()
                     break;
                 }
 
-                case 12: {
+                case 11: {
                     string raspuns;
 
                     if (idAutovehiculSelectat_meniu2 == -1) {
@@ -1034,7 +1031,7 @@ int main()
                     break;
                 }
 
-                case 13: {
+                case 12: {
                     string raspuns;
 
                     if (idAutovehiculSelectat_meniu2 == -1) {
@@ -1080,7 +1077,7 @@ int main()
                     break;
                 }
 
-                case 14: {
+                case 13: {
                     mod = 1;
 
                     cin.ignore();
@@ -1088,21 +1085,22 @@ int main()
                     break;
                 }
 
-                case 15: {
+                case 14: {
                     if (!autentificat) {
                         cout << "Eroare! Aceasta optiune necesita autentificare.";
+                        cin.ignore();
+                        cin.get();
                     } else {
                         if ("Administrator" != cont_verificare.getTipCont()) {
                             cout << "Eroare! Permisiune insuficienta.";
+                            cin.ignore();
+                            cin.get();
                         }
                         else {
                             mod = 3;
-                            cout << "Succes.";
                         }
                     }
 
-                    cin.ignore();
-                    cin.get();
                     break;
                 }
 
@@ -1127,8 +1125,8 @@ int main()
             cout << '\n';
             cout << "Cont selectat: " << (emailSelectat.empty() ? "N/A (poti selecta un cont accesand optiunea \"3. Cauta/Selecteaza cont\")" : contSelectat) << endl;
             cout << '\n';
-            cout << "8. Meniu clienti\n";
-            cout << "9. Meniu angajati\n";
+            cout << "6. Meniu clienti\n";
+            cout << "7. Meniu angajati\n";
             cout << "0. Inchidere program\n";
             cout << "\nIntroduceti o optiune... ";
             cin >> optiune;
@@ -1249,7 +1247,7 @@ int main()
                     break;
                 }
 
-                case 8: {
+                case 6: {
                     mod = 1;
 
                     cin.ignore();
@@ -1257,7 +1255,7 @@ int main()
                     break;
                 }
 
-                case 9: {
+                case 7: {
                     mod = 2;
 
                     cin.ignore();

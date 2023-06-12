@@ -1,3 +1,4 @@
 test123@gmail.com;parolaaa;Angajat;
-test2@gmail.com;parola5000;Administrator;
-potato@gmail.com;potato;Client;
+test@gmail.com;parola5000;Administrator;
+alex@gmail.com;zxpolfm85;Client;
+potato@gmail.com;potato123;Client;
