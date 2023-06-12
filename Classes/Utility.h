@@ -17,11 +17,13 @@ class Utility {
 public:
     static vector<string> split(string str, char delimiter) {
         vector<string> tokens;
-        char* token = strtok(&str[0], &delimiter);
+        char delimiterStr[] = {delimiter, '\0'};  // Convert delimiter to C-style string
+
+        char* token = strtok(&str[0], delimiterStr);
 
         while (token != nullptr) {
             tokens.emplace_back(token);
-            token = strtok(nullptr, &delimiter);
+            token = strtok(nullptr, delimiterStr);
         }
 
         return tokens;

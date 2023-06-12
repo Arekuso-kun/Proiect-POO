@@ -243,6 +243,7 @@ string Autovehicul::selecteazaCombustibilAutovehicul() {
 istream& operator>>(istream& is, Autovehicul& autovehicul)
 {
     string input;
+    int int_input;
     cout << "Introduceti marca autovehiculului: ";
     is.ignore();
     getline(is, autovehicul.marca);
@@ -259,7 +260,8 @@ istream& operator>>(istream& is, Autovehicul& autovehicul)
         cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
         is >> input;
     }
-    autovehicul.cost_zi = stoi(input);
+    int_input = stoi(input);
+    autovehicul.cost_zi = int_input;
 
     cout << endl;
     autovehicul.disponibil = Autovehicul::selecteazaDisponibilitateAutovehicul();
@@ -270,7 +272,8 @@ istream& operator>>(istream& is, Autovehicul& autovehicul)
         cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
         is >> input;
     }
-    autovehicul.capacitate_motor = stoi(input);
+    int_input = stoi(input);
+    autovehicul.capacitate_motor = int_input;
 
     cout << "Introduceti numarul de locuri al autovehiculului: ";
     is >> input;
@@ -278,7 +281,8 @@ istream& operator>>(istream& is, Autovehicul& autovehicul)
         cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
         is >> input;
     }
-    autovehicul.nr_locuri = stoi(input);
+    int_input = stoi(input);
+    autovehicul.nr_locuri = int_input;
 
     cout << "Introduceti numarul de portiere al autovehiculului: ";
     is >> input;
@@ -286,7 +290,8 @@ istream& operator>>(istream& is, Autovehicul& autovehicul)
         cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
         is >> input;
     }
-    autovehicul.nr_portiere = stoi(input);
+    int_input = stoi(input);
+    autovehicul.nr_portiere = int_input;
 
     cout << "Introduceti volumul portbagajului autovehiculului (L): ";
     is >> input;
@@ -294,7 +299,8 @@ istream& operator>>(istream& is, Autovehicul& autovehicul)
         cout << "Raspunsul trebuie sa contina doar cifre, reintroduceti raspunsul...";
         is >> input;
     }
-    autovehicul.volum_portbagaj = stoi(input);
+    int_input = stoi(input);
+    autovehicul.volum_portbagaj = int_input;
 
     cout << endl;
     autovehicul.transmisie = Autovehicul::selecteazaTransmisieAutovehicul();
@@ -315,7 +321,7 @@ ostream& operator<<(ostream& os, Autovehicul& autovehicul)
 }
 
 void Autovehicul::citireAutovehiculExistent() {
-    string input;
+    string input = "0";
 
     cout << "Introduceti marca autovehiculului (default: " << marca << "): ";
     cin.ignore();

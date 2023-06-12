@@ -535,7 +535,7 @@ int main()
     vector<Cont> conturi = adminConturi.GetConturi(nrConturi);
     Cont cont;
     Cont cont_autentificare;
-    Cont cont_verificare;
+    Cont cont_verificare, cont_verificare_exista;
 
     int idAutovehiculSelectat_meniu1 = -1;
     bool infoInchiriere = false;
@@ -694,10 +694,14 @@ int main()
                 case 8: {
                     if(!autentificat) {
                         cout << "Eroare! Aceasta optiune necesita autentificare.";
+                        cin.ignore();
+                        cin.get();
                     }
                     else {
                         if ("Angajat" != cont_verificare.getTipCont() && "Administrator" != cont_verificare.getTipCont()) {
                             cout << "Eroare! Permisiune insuficienta.";
+                            cin.ignore();
+                            cin.get();
                         } else {
                             mod = 2;
                             cout << "Succes.";
@@ -712,18 +716,20 @@ int main()
                 case 9: {
                     if(!autentificat) {
                         cout << "Eroare! Aceasta optiune necesita autentificare.";
+                        cin.ignore();
+                        cin.get();
                     }
                     else {
                         if ("Administrator" != cont_verificare.getTipCont()) {
                             cout << "Eroare! Permisiune insuficienta.";
+                            cin.ignore();
+                            cin.get();
                         } else {
                             mod = 3;
                             cout << "Succes.";
                         }
                     }
 
-                    cin.ignore();
-                    cin.get();
                     break;
                 }
 
@@ -1132,9 +1138,15 @@ int main()
                     cin >> cont;
                     cout << endl;
                     cont.setTipCont(cont.selecteazaTipCont());
-                    adminConturi.AdaugaCont(cont);
-                    cout << endl << "Cont salvat";
-                    cont = Cont();
+                    cont_verificare_exista = adminConturi.CautaContDupaEmail(cont.getEmail());
+                    if(cont_verificare_exista.getEmail() == cont.getEmail()) {
+                        cout << "Eroare! Contul deja exista!";
+                    }
+                    else {
+                        adminConturi.AdaugaCont(cont);
+                        cout << endl << "Cont salvat";
+                        cont = Cont();
+                    }
 
                     cin.ignore();
                     cin.get();
@@ -1246,16 +1258,7 @@ int main()
                 }
 
                 case 9: {
-                    string parola;
-                    cout << "Introduce parola: ";
-                    cin >> parola;
-
-                    if (parola == "admin") {
-                        mod = 3;
-                        cout << "Parola corecta!" << endl;
-                    }
-                    else
-                        cout << "Parola gresita!";
+                    mod = 2;
 
                     cin.ignore();
                     cin.get();
