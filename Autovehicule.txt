@@ -1,5 +1,7 @@
-0;Audi;RS7;Coupe;30;0;1800;5;5;500;Manuala;1;Benzina;
-1;Honda;Civic;Compact;20;0;1800;4;5;200;Manuala;1;Benzina;
-2;Volkswagen;Passat;Break;40;1;2000;4;5;200;Automata;0;Motorina;
-3;bemveu;x8;Break;100;0;3000;5;5;600;Manuala;1;Benzina;
-4;masina;smechera;SUV;169;1;5000;3;7;54;Automata;0;Electric;
+0;Audi;RS7;Coupe;300;1;1800;4;4;520;Manuala;1;Benzina;
+1;Honda;Civic;Compact;200;0;1800;4;2;280;Manuala;1;Benzina;
+2;Volkswagen;Passat;Break;250;1;2000;4;4;670;Automata;0;Motorina;
+3;BMW;x8;Break;100;0;3000;4;4;580;Manuala;1;Benzina;
+4;Audi;Q7;SUV;169;0;2500;4;4;430;Automata;0;Benzina;
+5;Audi;A4;Break;250;1;1800;4;4;460;Manuala;1;Benzina;
+6;Volkswagen;Golf;Cabrio;140;1;1600;4;2;230;Automata;0;Electric;

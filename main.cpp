@@ -97,22 +97,22 @@ int main()
                 case 1: {
                     if(!autentificat) {
                         cin >> cont_autentificare;
-                        cout << endl;
+                        cout << endl << endl;
                         cont_verificare = adminConturi.CautaContDupaEmail(cont_autentificare.getEmail());
                         if(cont_verificare.getEmail() != cont_autentificare.getEmail()) {
-                            cout << endl << "Eroare! Nu s-a gasit niciun cont cu email-ul introdus.";
+                            cout << "Eroare! Nu s-a gasit niciun cont cu email-ul introdus.";
                         }
                         else if(cont_verificare.getParola() != cont_autentificare.getParola()) {
-                            cout << endl << "Eroare! Parola gresita.";
+                            cout << "Eroare! Parola gresita.";
                         }
                         else {
                             autentificat = true;
-                            cout << endl << "Autentificare cu succes.";
+                            cout << "Autentificare cu succes.";
                         }
                     }
                     else {
                         autentificat = false;
-                        cout << endl << "Log out cu succes.";
+                        cout << "Log out cu succes.";
                     }
 
                     cin.ignore();
@@ -121,9 +121,17 @@ int main()
                 }
                 case 2: {
                     cin >> cont;
+                    cout << endl << endl;
                     cont.setTipCont("Client");
-                    adminConturi.AdaugaCont(cont);
-                    cout << endl << "Inregistrare cu succes.";
+                    cont_verificare_exista = adminConturi.CautaContDupaEmail(cont.getEmail());
+                    if(cont_verificare_exista.getEmail() == cont.getEmail()) {
+                        cout << "Eroare! Contul deja exista!";
+                    }
+                    else {
+                        adminConturi.AdaugaCont(cont);
+                        cout << "Inregistrare cu succes.";
+                        cont = Cont();
+                    }
 
                     cin.ignore();
                     cin.get();
@@ -652,11 +660,11 @@ int main()
             switch (toupper(optiune)) {
                 case 1: {
                     cin >> cont;
-                    cout << endl;
+                    cout << endl << endl;
                     cont.setTipCont(cont.selecteazaTipCont());
                     cont_verificare_exista = adminConturi.CautaContDupaEmail(cont.getEmail());
                     if(cont_verificare_exista.getEmail() == cont.getEmail()) {
-                        cout << "Eroare! Contul deja exista!";
+                        cout << endl << "Eroare! Contul deja exista!";
                     }
                     else {
                         adminConturi.AdaugaCont(cont);
