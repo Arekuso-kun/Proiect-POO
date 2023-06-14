@@ -6,3 +6,4 @@ test22@yahoo.com;parola5000;Angajat;
 acestaeuntest@gmail.com;test;Client;
 ewrgrswioj@test.com;parola;Angajat;
 ewfwfs@efio.com;freuighgdf;Client;
+client@gmail.com;parola;Client;

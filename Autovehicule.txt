@@ -3,5 +3,5 @@
 2;Volkswagen;Passat;Break;250;1;2000;4;4;670;Automata;0;Motorina;
 3;BMW;x8;Break;100;0;3000;4;4;580;Manuala;1;Benzina;
 4;Audi;Q7;SUV;169;0;2500;4;4;430;Automata;0;Benzina;
-5;Audi;A4;Break;250;1;1800;4;4;460;Manuala;1;Benzina;
+5;Audi;A4;Break;250;0;1800;4;4;460;Manuala;1;Benzina;
 6;Volkswagen;Golf;Cabrio;140;1;1600;4;2;230;Automata;0;Electric;
